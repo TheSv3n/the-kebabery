@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-
+import generateToken from "../utils/generateToken.js";
 import User from "../models/userModel.js";
 
 //@desc Register a new user
@@ -29,6 +29,7 @@ const registerUser = asyncHandler(async (req, res) => {
       email: user.email,
       dateOfBirth: user.dateOfBirth,
       isAdmin: user.isAdmin,
+      token: generateToken(user._id),
     });
   } else {
     res.status(400);
