@@ -4,10 +4,12 @@ import {
   getMeals,
   getMealById,
   createMeal,
+  updateMeal,
 } from "../controllers/mealController.js";
+import { protect, admin } from "../middleware/authMiddleware.js";
 
-router.route("/").get(getMeals).post(createMeal); //needs middleware
+router.route("/").get(getMeals).post(protect, admin, createMeal);
 
-router.route("/:id").get(getMealById);
+router.route("/:id").get(getMealById).put(protect, admin, updateMeal);
 
 export default router;
