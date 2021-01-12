@@ -12,6 +12,9 @@ const addOrderItems = asyncHandler(async (req, res) => {
     itemsPrice,
     deliveryPrice,
     totalPrice,
+    cookTime,
+    travelTime,
+    totalDeliveryTime,
   } = req.body;
 
   if (orderItems && orderItems.length === 0) {
@@ -26,6 +29,9 @@ const addOrderItems = asyncHandler(async (req, res) => {
       itemsPrice,
       deliveryPrice,
       totalPrice,
+      cookTime,
+      travelTime,
+      totalDeliveryTime,
     });
 
     const createdOrder = await order.save();
