@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../css/landingPage.css";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleMenuActive } from "../actions/landingActions";
 
 const LandingPage = () => {
-  let active = "";
+  const dispatch = useDispatch();
 
-  const toggleHandler = () => {};
+  const menuActive = useSelector((state) => state.menuActive);
+  const { menuToggle } = menuActive;
+
+  useEffect(() => {
+    //dispatch(toggleMenuActive(menuToggle));
+  }, [dispatch, menuToggle]);
+
+  const toggleHandler = () => {
+    dispatch(toggleMenuActive(menuToggle));
+  };
 
   return (
     <>
-      <section class={`showcase ${active}`}>
+      <section class={`showcase ${menuToggle}`}>
         <header>
           <h2 class="logo">The Kebabery</h2>
           <div class="toggle" onClick={toggleHandler}></div>
@@ -46,7 +57,7 @@ const LandingPage = () => {
         </ul>
       </section>
 
-      <div class={`menu ${active}`}>
+      <div class={`menu ${menuToggle}`}>
         <ul>
           <li>
             <a href="/">Home</a>
