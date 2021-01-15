@@ -8,17 +8,11 @@ import ContactsScreen from "./screens/ContactsScreen";
 function App() {
   return (
     <>
-      <Container>
-        <Router>
-          <Row>
-            <LandingPage />
-          </Row>
-          <Row>
-            <Route path="/contacts" component={ContactsScreen} />
-            <Route path="/" component={MenuScreen} exact />
-          </Row>
-        </Router>
-      </Container>
+      <Router>
+        <LandingPage />
+        <Route path="/contacts" component={ContactsScreen} />
+        <Route path="/" component={MenuScreen} exact />
+      </Router>
     </>
   );
 }
