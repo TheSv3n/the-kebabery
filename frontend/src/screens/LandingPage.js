@@ -1,25 +1,22 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "../css/landingPage.css";
 import { useDispatch, useSelector } from "react-redux";
+import { LinkContainer } from "react-router-bootstrap";
 import { toggleMenuActive } from "../actions/landingActions";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
 
-  const menuActive = useSelector((state) => state.menuActive);
-  const { menuToggle } = menuActive;
-
-  useEffect(() => {
-    //dispatch(toggleMenuActive(menuToggle));
-  }, [dispatch, menuToggle]);
+  const menuToggle = useSelector((state) => state.menuToggle);
+  const { menuActive } = menuToggle;
 
   const toggleHandler = () => {
-    dispatch(toggleMenuActive(menuToggle));
+    dispatch(toggleMenuActive(menuActive));
   };
 
   return (
     <>
-      <section class={`showcase ${menuToggle}`}>
+      <section class={`showcase ${menuActive}`}>
         <header>
           <h2 class="logo">The Kebabery</h2>
           <div class="toggle" onClick={toggleHandler}></div>
@@ -35,7 +32,9 @@ const LandingPage = () => {
             tempora laboriosam, voluptatibus maxime beatae corporis quae
             molestiae recusandae ea quas!
           </p>
-          <a href="/">Menu</a>
+          <LinkContainer to="/">
+            <a href="/">Menu</a>
+          </LinkContainer>
         </div>
 
         <ul class="social">
@@ -57,7 +56,7 @@ const LandingPage = () => {
         </ul>
       </section>
 
-      <div class={`menu ${menuToggle}`}>
+      <div class={`menu ${menuActive}`}>
         <ul>
           <li>
             <a href="/">Home</a>
@@ -65,15 +64,19 @@ const LandingPage = () => {
           <li>
             <a href="/">What's New</a>
           </li>
-          <li>
-            <a href="/">Menu</a>
-          </li>
+          <LinkContainer to="/">
+            <li>
+              <a href="/">Menu</a>
+            </li>
+          </LinkContainer>
           <li>
             <a href="/">Blog</a>
           </li>
-          <li>
-            <a href="/">Contacts</a>
-          </li>
+          <LinkContainer to="/contacts">
+            <li>
+              <a href="/">Contacts</a>
+            </li>
+          </LinkContainer>
         </ul>
       </div>
     </>

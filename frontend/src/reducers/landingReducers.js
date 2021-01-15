@@ -1,6 +1,9 @@
 import { MENU_ACTIVE_TOGGLE } from "../constants/landingConsants";
 
-export const menuActiveReducer = (state = { menuActive: false }, action) => {
+export const menuToggleReducer = (
+  state = { menuToggle: false, menuActive: "" },
+  action
+) => {
   switch (action.type) {
     case MENU_ACTIVE_TOGGLE:
       let currentState = action.payload;
@@ -14,8 +17,8 @@ export const menuActiveReducer = (state = { menuActive: false }, action) => {
 
       return {
         ...state,
-        menuActive: currentState,
-        menuToggle: active,
+        menuToggle: currentState,
+        menuActive: active,
       };
     default:
       return state;

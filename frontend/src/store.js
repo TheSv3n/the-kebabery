@@ -2,10 +2,12 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-import { menuActiveReducer } from "./reducers/landingReducers";
+import { menuToggleReducer } from "./reducers/landingReducers";
+import { mealListReducer } from "./reducers/mealReducers";
 
 const reducer = combineReducers({
-  menuActive: menuActiveReducer,
+  menuToggle: menuToggleReducer,
+  mealList: mealListReducer,
 });
 
 const initialState = {};
