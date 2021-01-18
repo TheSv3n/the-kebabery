@@ -16,15 +16,15 @@ const LandingPage = () => {
 
   return (
     <>
-      <section class={`showcase ${menuActive}`}>
+      <section className={`showcase ${menuActive}`}>
         <header>
-          <h2 class="logo">The Kebabery</h2>
-          <div class="toggle" onClick={toggleHandler}></div>
+          <h2 className="logo">The Kebabery</h2>
+          <div className="toggle" onClick={toggleHandler}></div>
         </header>
 
         <video src="/video/grill.mp4" muted="" loop="true" autoplay=""></video>
-        <div class="overlay"></div>
-        <div class="text">
+        <div className="overlay"></div>
+        <div className="text">
           <h2>The finest kebabs</h2>
           <h3>in all of Kebabdom</h3>
           <p>
@@ -37,26 +37,23 @@ const LandingPage = () => {
           </LinkContainer>
         </div>
 
-        <ul class="social">
-          <li>
-            <a href="/">
-              <img src="./images/facebook.png" alt="" />
-            </a>
-          </li>
-          <li>
-            <a href="/">
-              <img src="./images/twitter.png" alt="" />
-            </a>
-          </li>
-          <li>
-            <a href="/">
-              <img src="./images/instagram.png" alt="" />
-            </a>
-          </li>
-        </ul>
+        <footer>
+          <h2 className="logo">The Kebabery</h2>
+
+          <div className="menu-item">Home</div>
+
+          <div className="menu-item">What's New</div>
+          <LinkContainer to="/">
+            <div className="menu-item">Menu</div>
+          </LinkContainer>
+          <div className="menu-item">Blog</div>
+          <LinkContainer to="/contacts">
+            <div className="menu-item">Contacts</div>
+          </LinkContainer>
+        </footer>
       </section>
 
-      <div class={`menu ${menuActive}`}>
+      <div className={`menu ${menuActive}`}>
         <ul>
           <li>
             <a href="/">Home</a>

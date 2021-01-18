@@ -42,6 +42,28 @@
   justify-content: space-between;
 }
 
+.showcase footer {
+  position: absolute;
+  bottom: 1%;
+  left: 0;
+  width: 100%;
+  padding: 5px 100px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu-item {
+  font-size: 24px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  color: var(--overlay-color);
+}
+
 .logo {
   text-transform: uppercase;
   cursor: pointer;
