@@ -27,7 +27,8 @@
 }
 
 .showcase.active {
-  right: 300px;
+  min-height: 10vh;
+  padding: 40px;
 }
 
 .showcase header {
@@ -67,6 +68,20 @@
 .logo {
   text-transform: uppercase;
   cursor: pointer;
+}
+
+.logo.active {
+  display: none;
+}
+
+.bottom-logo {
+  text-transform: uppercase;
+  cursor: pointer;
+  display: none;
+}
+
+.bottom-logo.active {
+  display: inline;
 }
 
 .toggle {
@@ -149,6 +164,10 @@
 
 .text a:hover {
   letter-spacing: 6px;
+}
+
+.text.active {
+  display: none;
 }
 
 .social {

@@ -10,21 +10,30 @@ const LandingPage = () => {
   const menuToggle = useSelector((state) => state.menuToggle);
   const { menuActive } = menuToggle;
 
-  const toggleHandler = () => {
-    dispatch(toggleMenuActive(menuActive));
+  const toggleHandler = (type) => {
+    if (type === "menu") {
+      dispatch(toggleMenuActive(true));
+    } else if (type === "logo") {
+      dispatch(toggleMenuActive(false));
+    }
   };
 
   return (
     <>
       <section className={`showcase ${menuActive}`}>
         <header>
-          <h2 className="logo">The Kebabery</h2>
-          <div className="toggle" onClick={toggleHandler}></div>
+          <h2 className={`logo ${menuActive}`}>The Kebabery</h2>
         </header>
 
-        <video src="/video/grill.mp4" muted="" loop="true" autoplay=""></video>
+        <video
+          src="/video/grill.mp4"
+          muted=""
+          loop="true"
+          autoplay=""
+          className={`${menuActive}`}
+        ></video>
         <div className="overlay"></div>
-        <div className="text">
+        <div className={`text ${menuActive}`}>
           <h2>The finest kebabs</h2>
           <h3>in all of Kebabdom</h3>
           <p>
@@ -32,50 +41,34 @@ const LandingPage = () => {
             tempora laboriosam, voluptatibus maxime beatae corporis quae
             molestiae recusandae ea quas!
           </p>
-          <LinkContainer to="/">
-            <a href="/">Menu</a>
-          </LinkContainer>
         </div>
 
         <footer>
-          <h2 className="logo">The Kebabery</h2>
+          <h2
+            className={`bottom-logo ${menuActive}`}
+            onClick={() => toggleHandler("logo")}
+          >
+            The Kebabery
+          </h2>
 
-          <div className="menu-item">Home</div>
-
-          <div className="menu-item">What's New</div>
+          <div className="menu-item" onClick={() => toggleHandler("menu")}>
+            What's New
+          </div>
           <LinkContainer to="/">
-            <div className="menu-item">Menu</div>
+            <div className="menu-item" onClick={() => toggleHandler("menu")}>
+              Menu
+            </div>
           </LinkContainer>
-          <div className="menu-item">Blog</div>
+          <div className="menu-item" onClick={() => toggleHandler("menu")}>
+            Blog
+          </div>
           <LinkContainer to="/contacts">
-            <div className="menu-item">Contacts</div>
+            <div className="menu-item" onClick={() => toggleHandler("menu")}>
+              Contacts
+            </div>
           </LinkContainer>
         </footer>
       </section>
-
-      <div className={`menu ${menuActive}`}>
-        <ul>
-          <li>
-            <a href="/">Home</a>
-          </li>
-          <li>
-            <a href="/">What's New</a>
-          </li>
-          <LinkContainer to="/">
-            <li>
-              <a href="/">Menu</a>
-            </li>
-          </LinkContainer>
-          <li>
-            <a href="/">Blog</a>
-          </li>
-          <LinkContainer to="/contacts">
-            <li>
-              <a href="/">Contacts</a>
-            </li>
-          </LinkContainer>
-        </ul>
-      </div>
     </>
   );
 };

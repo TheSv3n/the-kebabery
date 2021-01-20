@@ -6,10 +6,10 @@ export const menuToggleReducer = (
 ) => {
   switch (action.type) {
     case MENU_ACTIVE_TOGGLE:
-      let currentState = action.payload;
-      currentState = !currentState;
+      let stateActive = action.payload;
+
       let active = "";
-      if (currentState) {
+      if (stateActive) {
         active = "active";
       } else {
         active = "";
@@ -17,7 +17,7 @@ export const menuToggleReducer = (
 
       return {
         ...state,
-        menuToggle: currentState,
+        menuToggle: stateActive,
         menuActive: active,
       };
     default:
