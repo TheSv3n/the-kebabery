@@ -50,21 +50,17 @@ const LandingPage = () => {
           >
             The Kebabery
           </h2>
-
-          <div className="menu-item" onClick={() => toggleHandler("menu")}>
-            What's New
-          </div>
           <LinkContainer to="/">
             <div className="menu-item" onClick={() => toggleHandler("menu")}>
               Menu
             </div>
           </LinkContainer>
           <div className="menu-item" onClick={() => toggleHandler("menu")}>
-            Blog
+            What's New
           </div>
           <LinkContainer to="/contacts">
             <div className="menu-item" onClick={() => toggleHandler("menu")}>
-              Contacts
+              Contact Us
             </div>
           </LinkContainer>
         </footer>

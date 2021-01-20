@@ -4,7 +4,7 @@ import { Container, Row } from "react-bootstrap";
 import LandingPage from "./screens/LandingPage";
 import MenuScreen from "./screens/MenuScreen";
 import ContactsScreen from "./screens/ContactsScreen";
-
+import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
   return (
     <>
