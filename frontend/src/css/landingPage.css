@@ -84,24 +84,6 @@
   display: inline;
 }
 
-.toggle {
-  position: relative;
-  width: 60px;
-  height: 60px;
-  background: url("../images/menu.png");
-  background-repeat: no-repeat;
-  background-size: 30px;
-  background-position: center;
-  cursor: pointer;
-}
-
-.toggle.active {
-  background: url("../images/close.png");
-  background-repeat: no-repeat;
-  background-size: 25px;
-  background-position: center;
-}
-
 .showcase video {
   position: absolute;
   top: 0;
@@ -168,31 +150,6 @@
 
 .text.active {
   display: none;
-}
-
-.social {
-  position: absolute;
-  bottom: 20px;
-  z-index: 10;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.social li {
-  list-style: none;
-}
-
-.social li a {
-  display: inline-block;
-  filter: invert(1);
-  margin-right: 20px;
-  transform: scale(0.5);
-  transition: 0.5s;
-}
-
-.social li a:hover {
-  transform: scale(0.5) translateY(-15px);
 }
 
 .menu {
