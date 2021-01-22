@@ -63,6 +63,11 @@ const LandingPage = () => {
               Contact Us
             </div>
           </LinkContainer>
+          <LinkContainer to="/basket">
+            <div className="menu-item" onClick={() => toggleHandler("menu")}>
+              Your Order
+            </div>
+          </LinkContainer>
         </footer>
       </section>
     </>
