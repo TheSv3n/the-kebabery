@@ -77,11 +77,11 @@
 .bottom-logo {
   text-transform: uppercase;
   cursor: pointer;
-  display: none;
+  visibility: hidden;
 }
 
 .bottom-logo.active {
-  display: inline;
+  visibility: visible;
 }
 
 .showcase video {
