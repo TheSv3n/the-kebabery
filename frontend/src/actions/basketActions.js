@@ -9,7 +9,7 @@ export const addToBasket = (meal) => async (dispatch, getState) => {
   dispatch({
     type: BASKET_ADD_ITEM,
     payload: {
-      product: meal._id,
+      meal: meal._id,
       name: meal.name,
       image: meal.image,
       price: meal.price,
