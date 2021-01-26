@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { listMealDetails } from "../actions/mealActions";
@@ -14,8 +14,6 @@ import {
 import Loader from "../components/Loader";
 
 const MealScreen = ({ match, history }) => {
-  const [qty, setQty] = useState(1);
-
   const dispatch = useDispatch();
 
   const mealDetails = useSelector((state) => state.mealDetails);
@@ -24,6 +22,10 @@ const MealScreen = ({ match, history }) => {
   useEffect(() => {
     dispatch(listMealDetails(match.params.id));
   }, [dispatch, match]);
+
+  const setOption = (id, option, price) => {
+    console.log(id, option, price);
+  };
 
   const addToBasketHandler = () => {
     //Do handler
@@ -58,7 +60,7 @@ const MealScreen = ({ match, history }) => {
                     <Row>
                       <Col>Price:</Col>
                       <Col>
-                        <strong>£{meal.price.toFixed(2)}</strong>
+                        <strong>£{meal.price && meal.price.toFixed(2)}</strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
@@ -71,28 +73,33 @@ const MealScreen = ({ match, history }) => {
                     </Row>
                   </ListGroup.Item>
 
-                  {meal.options.map((option) => (
-                    <ListGroup.Item>
-                      <Row>
-                        <Col>{option.name}</Col>
-                        <Col>
-                          <Form.Control
-                            as="select"
-                            value={qty}
-                            onChange={(e) => {
-                              setQty(e.target.value);
-                            }}
-                          >
-                            {option.options.map((option) => (
-                              <option value="">
-                                "{option.name} (+ £{option.price.toFixed(2)})"
-                              </option>
-                            ))}
-                          </Form.Control>
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
-                  ))}
+                  {meal.options &&
+                    meal.options.map((option) => (
+                      <ListGroup.Item>
+                        <Row>
+                          <Col>{option.name}</Col>
+                          <Col>
+                            <Form.Control
+                              as="select"
+                              key={option._id}
+                              onChange={(e) => {
+                                setOption(
+                                  option._id,
+                                  e.target.value,
+                                  e.target.price
+                                );
+                              }}
+                            >
+                              {option.options.map((option) => (
+                                <option value={option.name}>
+                                  {option.name} (+ £{option.price.toFixed(2)})
+                                </option>
+                              ))}
+                            </Form.Control>
+                          </Col>
+                        </Row>
+                      </ListGroup.Item>
+                    ))}
 
                   <ListGroup.Item>
                     <Button

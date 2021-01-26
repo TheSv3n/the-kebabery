@@ -37,3 +37,11 @@ export const basketReducer = (
       return state;
   }
 };
+
+export const orderOptionsReducer = (
+  state = { selectedOptions: [] },
+  action
+) => {
+  switch (action.type) {
+  }
+};
