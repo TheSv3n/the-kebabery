@@ -4,12 +4,13 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 import { menuToggleReducer } from "./reducers/landingReducers";
 import { mealListReducer, mealDetailsReducer } from "./reducers/mealReducers";
-import { basketReducer } from "./reducers/basketReducers";
+import { basketReducer, mealOptionsReducer } from "./reducers/basketReducers";
 
 const reducer = combineReducers({
   menuToggle: menuToggleReducer,
   mealList: mealListReducer,
   mealDetails: mealDetailsReducer,
+  mealOptions: mealOptionsReducer,
   basket: basketReducer,
 });
 

@@ -3,6 +3,9 @@ import {
   BASKET_REMOVE_ITEM,
   BASKET_SAVE_DELIVERY_ADDRESS,
   BASKET_SAVE_PAYMENT_METHOD,
+  BASKET_OPTIONS_ADD,
+  BASKET_OPTIONS_UPDATE,
+  BASKET_OPTIONS_RESET,
 } from "../constants/basketConstants";
 
 export const basketReducer = (
@@ -38,10 +41,22 @@ export const basketReducer = (
   }
 };
 
-export const orderOptionsReducer = (
-  state = { selectedOptions: [] },
-  action
-) => {
+export const mealOptionsReducer = (state = { selectedOptions: [] }, action) => {
   switch (action.type) {
+    case BASKET_OPTIONS_ADD:
+      const option = action.payload;
+      return {
+        ...state,
+        selectedOptions: [...state.selectedOptions, option],
+      };
+    case BASKET_OPTIONS_UPDATE:
+      return {};
+    case BASKET_OPTIONS_RESET:
+      return {
+        ...state,
+        selectedOptions: [],
+      };
+    default:
+      return state;
   }
 };

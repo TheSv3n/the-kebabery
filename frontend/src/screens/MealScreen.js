@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { listMealDetails } from "../actions/mealActions";
+import { setMealOption, clearMealOptions } from "../actions/basketActions";
 import {
   Row,
   Col,
@@ -21,10 +22,12 @@ const MealScreen = ({ match, history }) => {
 
   useEffect(() => {
     dispatch(listMealDetails(match.params.id));
+    dispatch(clearMealOptions());
   }, [dispatch, match]);
 
-  const setOption = (id, option, price) => {
+  const setOption = (id, name, option, price) => {
     console.log(id, option, price);
+    dispatch(setMealOption({ id: id, name: name, option: option, price: 0 }));
   };
 
   const addToBasketHandler = () => {
@@ -85,6 +88,7 @@ const MealScreen = ({ match, history }) => {
                               onChange={(e) => {
                                 setOption(
                                   option._id,
+                                  option.name,
                                   e.target.value,
                                   e.target.price
                                 );

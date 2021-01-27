@@ -3,6 +3,9 @@ import {
   BASKET_REMOVE_ITEM,
   BASKET_SAVE_DELIVERY_ADDRESS,
   BASKET_SAVE_PAYMENT_METHOD,
+  BASKET_OPTIONS_ADD,
+  BASKET_OPTIONS_UPDATE,
+  BASKET_OPTIONS_RESET,
 } from "../constants/basketConstants";
 
 export const addToBasket = (meal) => async (dispatch, getState) => {
@@ -52,4 +55,17 @@ export const savePaymentMethod = (data) => (dispatch) => {
   });
 
   localStorage.setItem("paymentMethod", JSON.stringify(data));
+};
+
+export const setMealOption = (option) => (dispatch) => {
+  dispatch({
+    type: BASKET_OPTIONS_ADD,
+    payload: option,
+  });
+};
+
+export const clearMealOptions = () => (dispatch) => {
+  dispatch({
+    type: BASKET_OPTIONS_RESET,
+  });
 };
