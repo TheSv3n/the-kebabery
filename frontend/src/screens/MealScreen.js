@@ -20,13 +20,15 @@ const MealScreen = ({ match, history }) => {
   const mealDetails = useSelector((state) => state.mealDetails);
   const { loading, error, meal } = mealDetails;
 
+  const mealOptions = useSelector((state) => state.mealOptions);
+  const { selectedOptions } = mealOptions;
+
   useEffect(() => {
-    dispatch(listMealDetails(match.params.id));
     dispatch(clearMealOptions());
+    dispatch(listMealDetails(match.params.id));
   }, [dispatch, match]);
 
   const setOption = (id, name, option, price) => {
-    console.log(id, option, price);
     dispatch(setMealOption({ id: id, name: name, option: option, price: 0 }));
   };
 

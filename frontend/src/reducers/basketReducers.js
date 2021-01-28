@@ -45,9 +45,13 @@ export const mealOptionsReducer = (state = { selectedOptions: [] }, action) => {
   switch (action.type) {
     case BASKET_OPTIONS_ADD:
       const option = action.payload;
+      let tempOptions = state.selectedOptions;
+      tempOptions = tempOptions.filter((x) => x.id !== option.id);
+      tempOptions = [...tempOptions, option];
+
       return {
         ...state,
-        selectedOptions: [...state.selectedOptions, option],
+        selectedOptions: tempOptions,
       };
     case BASKET_OPTIONS_UPDATE:
       return {};
