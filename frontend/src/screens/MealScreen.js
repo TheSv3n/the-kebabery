@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { listMealDetails } from "../actions/mealActions";
-import { setMealOption, clearMealOptions } from "../actions/basketActions";
+import { addToBasket, updateMealOption } from "../actions/basketActions";
 import {
   Row,
   Col,
@@ -24,16 +24,23 @@ const MealScreen = ({ match, history }) => {
   const { selectedOptions } = mealOptions;
 
   useEffect(() => {
-    dispatch(clearMealOptions());
     dispatch(listMealDetails(match.params.id));
   }, [dispatch, match]);
 
-  const setOption = (id, name, option, price) => {
-    dispatch(setMealOption({ id: id, name: name, option: option, price: 0 }));
+  const setOption = (id, name, option) => {
+    dispatch(
+      updateMealOption({
+        id: id,
+        name: name,
+        option: option.split("-", 2)[0],
+        price: option.split("-", 2)[1],
+      })
+    );
   };
 
   const addToBasketHandler = () => {
-    //Do handler
+    dispatch(addToBasket(meal, selectedOptions));
+    history.push("/");
   };
 
   return (
@@ -91,13 +98,14 @@ const MealScreen = ({ match, history }) => {
                                 setOption(
                                   option._id,
                                   option.name,
-                                  e.target.value,
-                                  e.target.price
+                                  e.target.value
                                 );
                               }}
                             >
                               {option.options.map((option) => (
-                                <option value={option.name}>
+                                <option
+                                  value={`${option.name}-${option.price}`}
+                                >
                                   {option.name} (+ £{option.price.toFixed(2)})
                                 </option>
                               ))}

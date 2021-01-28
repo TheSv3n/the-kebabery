@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Container, Row } from "react-bootstrap";
 import OrderItem from "../components/OrderItem";
 import { useSelector } from "react-redux";

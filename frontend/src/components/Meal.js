@@ -1,15 +1,8 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { addToBasket } from "../actions/basketActions";
 
 const Meal = ({ meal }) => {
-  const dispatch = useDispatch();
-  const addToBasketHandler = () => {
-    dispatch(addToBasket(meal));
-  };
-
   return (
     <Link
       to={`/meal/${meal._id}`}

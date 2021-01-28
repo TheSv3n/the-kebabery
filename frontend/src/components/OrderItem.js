@@ -18,7 +18,9 @@ const OrderItem = ({ meal }) => {
         </Row>
         <Row>
           {meal.options.map((option) => (
-            <Col className="description">{option.name}</Col>
+            <Col className="description">
+              {option.name}: {option.option}
+            </Col>
           ))}
         </Row>
       </Col>
