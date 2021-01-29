@@ -6,6 +6,7 @@ import {
   BASKET_OPTIONS_SET,
   BASKET_OPTIONS_UPDATE,
   BASKET_OPTIONS_RESET,
+  BASKET_OPTIONS_CALC_COST,
 } from "../constants/basketConstants";
 
 export const addToBasket = (meal, options) => async (dispatch, getState) => {
@@ -75,5 +76,11 @@ export const updateMealOption = (option) => (dispatch) => {
 export const clearMealOptions = () => (dispatch) => {
   dispatch({
     type: BASKET_OPTIONS_RESET,
+  });
+};
+
+export const calculateOptionCost = () => (dispatch) => {
+  dispatch({
+    type: BASKET_OPTIONS_CALC_COST,
   });
 };

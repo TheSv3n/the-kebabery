@@ -6,6 +6,7 @@ import {
   BASKET_OPTIONS_SET,
   BASKET_OPTIONS_UPDATE,
   BASKET_OPTIONS_RESET,
+  BASKET_OPTIONS_CALC_COST,
 } from "../constants/basketConstants";
 
 export const basketReducer = (
@@ -20,7 +21,6 @@ export const basketReducer = (
         ...state,
         basketItems: [...state.basketItems, item],
       };
-
     case BASKET_REMOVE_ITEM:
       return {
         ...state,
@@ -41,7 +41,10 @@ export const basketReducer = (
   }
 };
 
-export const mealOptionsReducer = (state = { selectedOptions: [] }, action) => {
+export const mealOptionsReducer = (
+  state = { selectedOptions: [], optionsTotal: 0 },
+  action
+) => {
   switch (action.type) {
     case BASKET_OPTIONS_SET:
       return {
@@ -51,8 +54,8 @@ export const mealOptionsReducer = (state = { selectedOptions: [] }, action) => {
     case BASKET_OPTIONS_UPDATE:
       const option = action.payload;
       let tempOptions = state.selectedOptions;
-      tempOptions = tempOptions.filter((x) => x.id !== option.id);
-      tempOptions = [...tempOptions, option];
+      let index = tempOptions.findIndex((i) => i.id === option.id);
+      tempOptions[index] = option;
       return {
         ...state,
         selectedOptions: tempOptions,
@@ -61,6 +64,12 @@ export const mealOptionsReducer = (state = { selectedOptions: [] }, action) => {
       return {
         ...state,
         selectedOptions: [],
+      };
+    case BASKET_OPTIONS_CALC_COST:
+      let newTotal = action.payload;
+      return {
+        ...state,
+        optionsTotal: newTotal,
       };
     default:
       return state;

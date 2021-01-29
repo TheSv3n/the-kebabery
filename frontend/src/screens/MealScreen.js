@@ -21,7 +21,7 @@ const MealScreen = ({ match, history }) => {
   const { loading, error, meal } = mealDetails;
 
   const mealOptions = useSelector((state) => state.mealOptions);
-  const { selectedOptions } = mealOptions;
+  const { selectedOptions, optionsTotal } = mealOptions;
 
   useEffect(() => {
     dispatch(listMealDetails(match.params.id));
@@ -72,7 +72,10 @@ const MealScreen = ({ match, history }) => {
                     <Row>
                       <Col>Price:</Col>
                       <Col>
-                        <strong>£{meal.price && meal.price.toFixed(2)}</strong>
+                        <strong>
+                          £
+                          {meal.price && (meal.price + optionsTotal).toFixed(2)}
+                        </strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
