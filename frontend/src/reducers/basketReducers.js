@@ -66,7 +66,11 @@ export const mealOptionsReducer = (
         selectedOptions: [],
       };
     case BASKET_OPTIONS_CALC_COST:
-      let newTotal = action.payload;
+      let newTotal = state.selectedOptions.reduce(
+        (acc, item) => acc + item.price,
+        0
+      );
+      console.log(newTotal);
       return {
         ...state,
         optionsTotal: newTotal,

@@ -14,7 +14,7 @@ const OrderItem = ({ meal }) => {
       <Col md={10}>
         <Row>
           <Col>{meal.name}</Col>
-          <Col>£{meal.price.toFixed(2)}</Col>
+          <Col>£{(meal.price + meal.optionsPrice).toFixed(2)}</Col>
         </Row>
         <Row>
           {meal.options.map((option) => (

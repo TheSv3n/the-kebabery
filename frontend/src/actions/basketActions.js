@@ -9,7 +9,10 @@ import {
   BASKET_OPTIONS_CALC_COST,
 } from "../constants/basketConstants";
 
-export const addToBasket = (meal, options) => async (dispatch, getState) => {
+export const addToBasket = (meal, options, optionsTotal) => async (
+  dispatch,
+  getState
+) => {
   dispatch({
     type: BASKET_ADD_ITEM,
     payload: {
@@ -19,6 +22,8 @@ export const addToBasket = (meal, options) => async (dispatch, getState) => {
       price: meal.price,
       countInStock: meal.countInStock,
       options: options,
+      optionsPrice: optionsTotal,
+      totalPrice: optionsTotal + meal.price,
     },
   });
 
@@ -71,12 +76,14 @@ export const updateMealOption = (option) => (dispatch) => {
     type: BASKET_OPTIONS_UPDATE,
     payload: option,
   });
+  dispatch(calculateOptionCost());
 };
 
 export const clearMealOptions = () => (dispatch) => {
   dispatch({
     type: BASKET_OPTIONS_RESET,
   });
+  dispatch(calculateOptionCost());
 };
 
 export const calculateOptionCost = () => (dispatch) => {

@@ -33,13 +33,13 @@ const MealScreen = ({ match, history }) => {
         id: id,
         name: name,
         option: option.split("-", 2)[0],
-        price: option.split("-", 2)[1],
+        price: parseFloat(option.split("-", 2)[1]),
       })
     );
   };
 
   const addToBasketHandler = () => {
-    dispatch(addToBasket(meal, selectedOptions));
+    dispatch(addToBasket(meal, selectedOptions, optionsTotal));
     history.push("/");
   };
 

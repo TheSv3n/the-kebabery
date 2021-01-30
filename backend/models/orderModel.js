@@ -12,6 +12,8 @@ const orderSchema = mongoose.Schema(
         name: { type: String, required: true },
         image: { type: String, required: true },
         price: { type: Number, required: true },
+        optionsPrice: { type: Number, required: true },
+        totalPrice: { type: Number, required: true },
         meal: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,

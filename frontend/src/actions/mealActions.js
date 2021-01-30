@@ -6,7 +6,10 @@ import {
   MEAL_DETAILS_FAIL,
   MEAL_DETAILS_SUCCESS,
 } from "../constants/mealConstants";
-import { BASKET_OPTIONS_SET } from "../constants/basketConstants";
+import {
+  calculateOptionCost,
+  setDefaultOptions,
+} from "../actions/basketActions";
 import axios from "axios";
 
 export const listMeals = () => async (dispatch) => {
@@ -44,10 +47,8 @@ export const listMealDetails = (id) => async (dispatch) => {
       };
       defaultOptions.push(currentOption);
     }
-    dispatch({
-      type: BASKET_OPTIONS_SET,
-      payload: defaultOptions,
-    });
+    dispatch(setDefaultOptions(defaultOptions));
+    dispatch(calculateOptionCost());
     dispatch({
       type: MEAL_DETAILS_SUCCESS,
       payload: data,
