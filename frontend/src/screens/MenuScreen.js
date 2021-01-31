@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Container, Row } from "react-bootstrap";
+import { Container, Row, ListGroup, Col } from "react-bootstrap";
 import Loader from "../components/Loader";
 import Meal from "../components/Meal";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,9 @@ const MenuScreen = () => {
 
   const mealList = useSelector((state) => state.mealList);
   const { loading, error, meals } = mealList;
+
+  const mealCategories = [...new Set(meals.map((meal) => meal.category))];
+  console.log(mealCategories);
 
   useEffect(() => {
     dispatch(listMeals());
@@ -23,13 +26,24 @@ const MenuScreen = () => {
         "Error"
       ) : (
         <Row>
-          <div className="col-12 mx-auto col-md-12 col-lg-12">
-            <ul className="list-group">
-              {meals.map((meal) => (
-                <Meal key={meal._id} meal={meal} />
+          <Col md={12}>
+            <ListGroup className="mt-3">
+              {mealCategories.map((category) => (
+                <>
+                  <Row>
+                    <h4 className="">{category}</h4>
+                  </Row>
+                  {meals.map((meal) => {
+                    if (meal.category === category) {
+                      return <Meal key={meal._id} meal={meal} />;
+                    } else {
+                      return "";
+                    }
+                  })}
+                </>
               ))}
-            </ul>
-          </div>
+            </ListGroup>
+          </Col>
         </Row>
       )}
     </Container>

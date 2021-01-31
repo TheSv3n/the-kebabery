@@ -7,6 +7,15 @@ const BasketScreen = () => {
   const basket = useSelector((state) => state.basket);
   const { basketItems } = basket;
 
+  const basketTotal = basketItems.reduce(
+    (acc, item) => acc + item.totalPrice,
+    0
+  );
+
+  const deliveryCost = 2.5;
+
+  const orderTotal = basketTotal + deliveryCost;
+
   const submitHandler = () => {};
 
   return (
@@ -23,14 +32,14 @@ const BasketScreen = () => {
           <Card className="my-1">
             <ListGroup>
               <ListGroup.Item>
-                <h3>Title</h3>
+                <h3>Your Order</h3>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
                   <Col>Items Price:</Col>
                   <Col>
-                    <strong>£0</strong>
+                    <strong>£{basketTotal.toFixed(2)}</strong>
                   </Col>
                 </Row>
               </ListGroup.Item>
@@ -39,7 +48,7 @@ const BasketScreen = () => {
                 <Row>
                   <Col>Delivery Cost:</Col>
                   <Col>
-                    <strong>£0</strong>
+                    <strong>£{deliveryCost.toFixed(2)}</strong>
                   </Col>
                 </Row>
               </ListGroup.Item>
@@ -48,7 +57,7 @@ const BasketScreen = () => {
                 <Row>
                   <Col>Total:</Col>
                   <Col>
-                    <strong>£0</strong>
+                    <strong>£{orderTotal.toFixed(2)}</strong>
                   </Col>
                 </Row>
               </ListGroup.Item>

@@ -70,7 +70,6 @@ export const mealOptionsReducer = (
         (acc, item) => acc + item.price,
         0
       );
-      console.log(newTotal);
       return {
         ...state,
         optionsTotal: newTotal,
