@@ -5,6 +5,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { menuToggleReducer } from "./reducers/landingReducers";
 import { mealListReducer, mealDetailsReducer } from "./reducers/mealReducers";
 import { basketReducer, mealOptionsReducer } from "./reducers/basketReducers";
+import { userLoginReducer } from "./reducers/userReducers";
 
 const reducer = combineReducers({
   menuToggle: menuToggleReducer,
@@ -12,6 +13,7 @@ const reducer = combineReducers({
   mealDetails: mealDetailsReducer,
   mealOptions: mealOptionsReducer,
   basket: basketReducer,
+  userLogin: userLoginReducer,
 });
 
 const basketItemsFromStorage = localStorage.getItem("basketItems")

@@ -10,6 +10,12 @@ const LandingPage = () => {
   const menuToggle = useSelector((state) => state.menuToggle);
   const { menuActive } = menuToggle;
 
+  const basket = useSelector((state) => state.basket);
+  const { basketItems } = basket;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const toggleHandler = (type) => {
     if (type === "menu") {
       dispatch(toggleMenuActive(true));
@@ -65,9 +71,23 @@ const LandingPage = () => {
           </LinkContainer>
           <LinkContainer to="/basket">
             <div className="menu-item" onClick={() => toggleHandler("menu")}>
-              Your Order
+              Your Order{" "}
+              {basketItems.length > 0 ? `(${basketItems.length})` : ""}
             </div>
           </LinkContainer>
+          {userInfo ? (
+            <LinkContainer to="/profile">
+              <div className="menu-item" onClick={() => toggleHandler("menu")}>
+                Profile
+              </div>
+            </LinkContainer>
+          ) : (
+            <LinkContainer to="/login">
+              <div className="menu-item" onClick={() => toggleHandler("menu")}>
+                Login
+              </div>
+            </LinkContainer>
+          )}
         </footer>
       </section>
     </>
