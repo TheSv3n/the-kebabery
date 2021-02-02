@@ -24,11 +24,16 @@ const deliveryAddressFromStorage = localStorage.getItem("deliveryAddress")
   ? JSON.parse(localStorage.getItem("deliveryAddress"))
   : {};
 
+const userInfoFromStorage = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : null;
+
 const initialState = {
   basket: {
     basketItems: basketItemsFromStorage,
     deliveryAddress: deliveryAddressFromStorage,
   },
+  userLogin: { userInfo: userInfoFromStorage },
 };
 
 const middleware = [thunk];

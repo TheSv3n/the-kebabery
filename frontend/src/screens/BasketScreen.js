@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, ListGroup, Button } from "react-bootstrap";
 import OrderItem from "../components/OrderItem";
 import { useSelector } from "react-redux";
 
-const BasketScreen = () => {
+const BasketScreen = ({ history }) => {
   const basket = useSelector((state) => state.basket);
   const { basketItems } = basket;
 
@@ -16,7 +16,9 @@ const BasketScreen = () => {
 
   const orderTotal = basketTotal + deliveryCost;
 
-  const submitHandler = () => {};
+  const submitHandler = () => {
+    history.push("/login?redirect=delivery");
+  };
 
   return (
     <Container>
