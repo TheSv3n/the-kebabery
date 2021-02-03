@@ -1,8 +1,10 @@
 import {
   BASKET_ADD_ITEM,
   BASKET_REMOVE_ITEM,
+  BASKET_UPDATE_DELIVERY_COST,
   BASKET_SAVE_DELIVERY_ADDRESS,
   BASKET_SAVE_PAYMENT_METHOD,
+  BASKET_ITEMS_RESET,
   BASKET_OPTIONS_SET,
   BASKET_OPTIONS_UPDATE,
   BASKET_OPTIONS_RESET,
@@ -52,6 +54,23 @@ export const saveDeliveryAddress = (data) => (dispatch) => {
   });
 
   localStorage.setItem("deliveryAddress", JSON.stringify(data));
+};
+
+export const updateDeliveryCost = (data) => (dispatch) => {
+  dispatch({
+    type: BASKET_UPDATE_DELIVERY_COST,
+    payload: data,
+  });
+};
+
+export const clearBasketItems = () => (dispatch, getState) => {
+  dispatch({
+    type: BASKET_ITEMS_RESET,
+  });
+  localStorage.setItem(
+    "basketItems",
+    JSON.stringify(getState().basket.basketItems)
+  );
 };
 
 export const savePaymentMethod = (data) => (dispatch) => {

@@ -6,6 +6,7 @@ import { menuToggleReducer } from "./reducers/landingReducers";
 import { mealListReducer, mealDetailsReducer } from "./reducers/mealReducers";
 import { basketReducer, mealOptionsReducer } from "./reducers/basketReducers";
 import { userLoginReducer } from "./reducers/userReducers";
+import { orderCreateReducer } from "./reducers/orderReducers";
 
 const reducer = combineReducers({
   menuToggle: menuToggleReducer,
@@ -14,6 +15,7 @@ const reducer = combineReducers({
   mealOptions: mealOptionsReducer,
   basket: basketReducer,
   userLogin: userLoginReducer,
+  orderCreate: orderCreateReducer,
 });
 
 const basketItemsFromStorage = localStorage.getItem("basketItems")
@@ -24,6 +26,10 @@ const deliveryAddressFromStorage = localStorage.getItem("deliveryAddress")
   ? JSON.parse(localStorage.getItem("deliveryAddress"))
   : {};
 
+const deliveryCostFromStorage = localStorage.getItem("deliveryCost")
+  ? JSON.parse(localStorage.getItem("deliveryCost"))
+  : 0;
+
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
@@ -32,6 +38,7 @@ const initialState = {
   basket: {
     basketItems: basketItemsFromStorage,
     deliveryAddress: deliveryAddressFromStorage,
+    deliveryCost: deliveryCostFromStorage,
   },
   userLogin: { userInfo: userInfoFromStorage },
 };

@@ -1,30 +1,37 @@
 import React, { useState } from "react";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Form, Button, Container, Row, Col, ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { saveDeliveryAddress } from "../actions/basketActions";
+import {
+  saveDeliveryAddress,
+  updateDeliveryCost,
+} from "../actions/basketActions";
+import PriceSummary from "../components/PriceSummary";
 
 const DeliveryScreen = ({ history }) => {
   const basket = useSelector((state) => state.basket);
-  const { deliveryAddress } = basket;
+  const { basketItems, deliveryAddress } = basket;
 
   const [address, setAddress] = useState(deliveryAddress.address);
   const [city, setCity] = useState(deliveryAddress.city);
   const [postCode, setPostCode] = useState(deliveryAddress.postCode);
+
+  const deliveryCost = 2.5;
 
   const dispatch = useDispatch();
 
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(saveDeliveryAddress({ address, city, postCode }));
-    history.push("/payment");
+    dispatch(updateDeliveryCost(deliveryCost));
+    history.push("/ordersummary");
   };
 
   return (
-    <Container>
-      <Row className="justify-content-md-center">
-        <Col xs={12} md={6}>
-          <h1>Shipping</h1>
-          <Form onSubmit={submitHandler}>
+    <Container className="my-1">
+      <Row>
+        <Col md={8}>
+          <h2>Delivery</h2>
+          <Form>
             <Form.Group controlId="address">
               <Form.Label>Address</Form.Label>
               <Form.Control
@@ -57,11 +64,20 @@ const DeliveryScreen = ({ history }) => {
                 onChange={(e) => setPostCode(e.target.value)}
               ></Form.Control>
             </Form.Group>
-
-            <Button type="submit" variant="primary">
-              Continue
-            </Button>
           </Form>
+        </Col>
+        <Col md={4}>
+          <PriceSummary />
+          <ListGroup.Item>
+            <Button
+              onClick={submitHandler}
+              className="btn-block"
+              type="button"
+              disabled={basketItems.length === 0}
+            >
+              Go to Order Summary
+            </Button>
+          </ListGroup.Item>
         </Col>
       </Row>
     </Container>
