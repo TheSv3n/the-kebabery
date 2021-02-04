@@ -30,6 +30,10 @@ const deliveryCostFromStorage = localStorage.getItem("deliveryCost")
   ? JSON.parse(localStorage.getItem("deliveryCost"))
   : 0;
 
+const deliveryMethodFromStorage = localStorage.getItem("deliveryMethod")
+  ? JSON.parse(localStorage.getItem("deliveryMethod"))
+  : "Delivery";
+
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
@@ -39,6 +43,7 @@ const initialState = {
     basketItems: basketItemsFromStorage,
     deliveryAddress: deliveryAddressFromStorage,
     deliveryCost: deliveryCostFromStorage,
+    deliveryMethod: deliveryMethodFromStorage,
   },
   userLogin: { userInfo: userInfoFromStorage },
 };

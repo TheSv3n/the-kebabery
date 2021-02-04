@@ -9,6 +9,7 @@ import {
   BASKET_OPTIONS_UPDATE,
   BASKET_OPTIONS_RESET,
   BASKET_OPTIONS_CALC_COST,
+  BASKET_UPDATE_DELIVERY_METHOD,
 } from "../constants/basketConstants";
 
 export const addToBasket = (meal, options, optionsTotal) => async (
@@ -24,6 +25,7 @@ export const addToBasket = (meal, options, optionsTotal) => async (
       price: meal.price,
       countInStock: meal.countInStock,
       options: options,
+      cookTime: meal.cookTime,
       optionsPrice: optionsTotal,
       totalPrice: optionsTotal + meal.price,
     },
@@ -61,6 +63,14 @@ export const updateDeliveryCost = (data) => (dispatch) => {
     type: BASKET_UPDATE_DELIVERY_COST,
     payload: data,
   });
+};
+
+export const updateDeliveryMethod = (data) => (dispatch) => {
+  dispatch({
+    type: BASKET_UPDATE_DELIVERY_METHOD,
+    payload: data,
+  });
+  localStorage.setItem("deliveryMethod", JSON.stringify(data));
 };
 
 export const clearBasketItems = () => (dispatch, getState) => {

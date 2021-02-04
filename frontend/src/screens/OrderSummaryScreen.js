@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
+import { Button, Row, Col, ListGroup, Image } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { createOrder, resetCreatedOrder } from "../actions/orderActions";
 import { clearBasketItems } from "../actions/basketActions";
@@ -9,7 +9,7 @@ import PriceSummary from "../components/PriceSummary";
 const OrderSummaryScreen = ({ history }) => {
   const dispatch = useDispatch();
   const basket = useSelector((state) => state.basket);
-  const { basketItems, deliveryAddress, deliveryCost } = basket;
+  const { basketItems, deliveryAddress, deliveryCost, deliveryMethod } = basket;
 
   const orderCreate = useSelector((state) => state.orderCreate);
   const { order, success, error } = orderCreate;
@@ -47,12 +47,16 @@ const OrderSummaryScreen = ({ history }) => {
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <h2>Delivery</h2>
-              <p>
-                <strong>Address: </strong>
-                {basket.deliveryAddress.address}, {basket.deliveryAddress.city},{" "}
-                {basket.deliveryAddress.postCode}
-              </p>
+              <h2>{deliveryMethod}</h2>
+              {deliveryMethod === "Collection" ? (
+                ""
+              ) : (
+                <p>
+                  <strong>Address: </strong>
+                  {deliveryAddress.address}, {deliveryAddress.city},{" "}
+                  {deliveryAddress.postCode}
+                </p>
+              )}
             </ListGroup.Item>
 
             <ListGroup.Item>
@@ -79,11 +83,29 @@ const OrderSummaryScreen = ({ history }) => {
                           />
                         </Col>
                         <Col>
-                          <Link to={`/product/${item.product}`}>
+                          <Link
+                            to={`/product/${item.product}`}
+                            style={{ textDecoration: "none", color: "#111" }}
+                          >
                             {item.name}
                           </Link>
                         </Col>
-                        <Col md={4}>£{item && item.totalPrice.toFixed(2)}</Col>
+                        <Col md={4}>£{item && item.price.toFixed(2)}</Col>
+                      </Row>
+
+                      {item.options.map((option) => (
+                        <Row className="description">
+                          <Col md={2}>
+                            {option.name}: {option.option}
+                          </Col>
+                          <Col></Col>
+                          <Col md={4}>£{option.price.toFixed(2)}</Col>
+                        </Row>
+                      ))}
+                      <Row>
+                        <Col md={2}>Item Total:</Col>
+                        <Col></Col>
+                        <Col md={4}>£{item.totalPrice.toFixed(2)}</Col>
                       </Row>
                     </ListGroup.Item>
                   ))}

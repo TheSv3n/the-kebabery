@@ -1,5 +1,11 @@
 import mongoose from "mongoose";
 
+const itemOptionSchema = mongoose.Schema({
+  name: { type: String, required: true },
+  option: { type: String, required: true },
+  price: { type: Number, required: true },
+});
+
 const orderSchema = mongoose.Schema(
   {
     user: {
@@ -12,6 +18,7 @@ const orderSchema = mongoose.Schema(
         name: { type: String, required: true },
         image: { type: String, required: true },
         price: { type: Number, required: true },
+        options: [itemOptionSchema],
         optionsPrice: { type: Number, required: true },
         totalPrice: { type: Number, required: true },
         meal: {

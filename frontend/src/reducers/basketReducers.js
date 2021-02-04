@@ -9,10 +9,16 @@ import {
   BASKET_OPTIONS_RESET,
   BASKET_OPTIONS_CALC_COST,
   BASKET_ITEMS_RESET,
+  BASKET_UPDATE_DELIVERY_METHOD,
 } from "../constants/basketConstants";
 
 export const basketReducer = (
-  state = { basketItems: [], deliveryAddress: {}, deliveryCost: 0 },
+  state = {
+    basketItems: [],
+    deliveryAddress: {},
+    deliveryCost: 0,
+    deliveryMethod: "Delivery",
+  },
   action
 ) => {
   switch (action.type) {
@@ -38,6 +44,11 @@ export const basketReducer = (
       return {
         ...state,
         deliveryAddress: action.payload,
+      };
+    case BASKET_UPDATE_DELIVERY_METHOD:
+      return {
+        ...state,
+        deliveryMethod: action.payload,
       };
     case BASKET_UPDATE_DELIVERY_COST:
       return {

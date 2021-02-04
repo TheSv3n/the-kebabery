@@ -12,7 +12,6 @@ const MenuScreen = () => {
   const { loading, error, meals } = mealList;
 
   const mealCategories = [...new Set(meals.map((meal) => meal.category))];
-  console.log(mealCategories);
 
   useEffect(() => {
     dispatch(listMeals());
