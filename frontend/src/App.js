@@ -9,6 +9,7 @@ import MealScreen from "./screens/MealScreen";
 import LoginScreen from "./screens/LoginScreen";
 import DeliveryScreen from "./screens/DeliveryScreen";
 import OrderSummaryScreen from "./screens/OrderSummaryScreen";
+import OrderScreen from "./screens/OrderScreen";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/app.css";
 
@@ -18,6 +19,7 @@ function App() {
       <Router>
         <LandingPage />
         <Container>
+          <Route path="/order/:id" component={OrderScreen} />
           <Route path="/ordersummary" component={OrderSummaryScreen} />
           <Route path="/meal/:id" component={MealScreen} />
           <Route path="/basket" component={BasketScreen} />

@@ -6,7 +6,10 @@ import { menuToggleReducer } from "./reducers/landingReducers";
 import { mealListReducer, mealDetailsReducer } from "./reducers/mealReducers";
 import { basketReducer, mealOptionsReducer } from "./reducers/basketReducers";
 import { userLoginReducer } from "./reducers/userReducers";
-import { orderCreateReducer } from "./reducers/orderReducers";
+import {
+  orderCreateReducer,
+  orderDetailsReducer,
+} from "./reducers/orderReducers";
 
 const reducer = combineReducers({
   menuToggle: menuToggleReducer,
@@ -16,6 +19,7 @@ const reducer = combineReducers({
   basket: basketReducer,
   userLogin: userLoginReducer,
   orderCreate: orderCreateReducer,
+  orderDetails: orderDetailsReducer,
 });
 
 const basketItemsFromStorage = localStorage.getItem("basketItems")

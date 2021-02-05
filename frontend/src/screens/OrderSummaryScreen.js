@@ -34,6 +34,7 @@ const OrderSummaryScreen = ({ history }) => {
       createOrder({
         orderItems: basket.basketItems,
         deliveryAddress: basket.deliveryAddress,
+        deliveryMethod: "test",
         paymentMethod: "paypal",
         itemsPrice: basketTotal,
         deliveryPrice: basket.deliveryPrice,

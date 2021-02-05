@@ -93,7 +93,6 @@ export const savePaymentMethod = (data) => (dispatch) => {
 };
 
 export const setDefaultOptions = (options) => (dispatch) => {
-  console.log("triggered");
   dispatch({
     type: BASKET_OPTIONS_SET,
     payload: options,
