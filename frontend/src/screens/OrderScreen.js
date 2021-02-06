@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
+import { Row, Col, ListGroup, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { getOrderDetails } from "../actions/orderActions";
+import OrderItem from "../components/OrderItem";
 
 const OrderScreen = ({ match, history }) => {
   const orderId = match.params.id;
@@ -22,6 +23,8 @@ const OrderScreen = ({ match, history }) => {
     if (!userInfo) {
       history.push("/login");
     }
+    dispatch(getOrderDetails(match.params.id));
+
     /*const addPayPalScript = async () => {
       const { data: clientId } = await axios.get("/api/config/paypal");
       const script = document.createElement("script");
@@ -38,9 +41,8 @@ const OrderScreen = ({ match, history }) => {
     //if (!order || successPay || successDeliver) {
     //dispatch({ type: ORDER_PAY_RESET });
     //dispatch({ type: ORDER_DELIVER_RESET });
-    if (!order) {
-      dispatch(getOrderDetails(orderId));
-    }
+    //if (!order && order._id !== orderId) {
+    //}
     /*} else if (!order.isPaid) {
       if (!window.paypal) {
         addPayPalScript();
@@ -48,13 +50,7 @@ const OrderScreen = ({ match, history }) => {
         setSdkReady(true);
       }
     }*/
-  }, [
-    dispatch,
-    order,
-    orderId,
-    /*successPay, successDeliver,*/ userInfo,
-    history,
-  ]);
+  }, [dispatch, match, /*successPay, successDeliver,*/ userInfo, history]);
 
   return loading ? (
     <Loader />
@@ -67,18 +63,23 @@ const OrderScreen = ({ match, history }) => {
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <h2>Shipping</h2>
+              <h2>{order.deliveryMethod}</h2>
               <p>
                 <strong>Name: </strong> {order.user.name}
               </p>
               <p>
                 <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
               </p>
-              <p>
-                <strong>Address: </strong>
-                {order.deliveryAddress.address}, {order.deliveryAddress.city}{" "}
-                {order.deliveryAddress.postCode}
-              </p>
+              {order.deliveryMethod === "Collection" ? (
+                "Order will be available to collect in 20 mins"
+              ) : (
+                <p>
+                  <strong>Address: </strong>
+                  {order.deliveryAddress.address}, {order.deliveryAddress.city}{" "}
+                  {order.deliveryAddress.postCode}
+                </p>
+              )}
+
               {order.isDelivered ? (
                 <Message variant="success">
                   Delivered on {order.deliveredAt}
@@ -108,22 +109,7 @@ const OrderScreen = ({ match, history }) => {
               ) : (
                 <ListGroup variant="flush">
                   {order.orderItems.map((item, index) => (
-                    <ListGroup.Item key={index}>
-                      <Row>
-                        <Col md={1}>
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            fluid
-                            rounded
-                          />
-                        </Col>
-                        <Col>
-                          <Link to={`/meal/${item.meal}`}>{item.name}</Link>
-                        </Col>
-                        <Col md={4}>£{item.totalPrice}</Col>
-                      </Row>
-                    </ListGroup.Item>
+                    <OrderItem item={item} index={index} />
                   ))}
                 </ListGroup>
               )}
@@ -139,19 +125,19 @@ const OrderScreen = ({ match, history }) => {
               <ListGroup.Item>
                 <Row>
                   <Col>Items</Col>
-                  <Col>${order.itemsPrice}</Col>
+                  <Col>£{order.itemsPrice.toFixed(2)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Shipping</Col>
-                  <Col>${order.deliveryPrice}</Col>
+                  <Col>Delivery</Col>
+                  <Col>£{order.deliveryPrice.toFixed(2)}</Col>
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
                   <Col>Total</Col>
-                  <Col>${order.totalPrice}</Col>
+                  <Col>£{order.totalPrice.toFixed(2)}</Col>
                 </Row>
               </ListGroup.Item>
               {/*!order.isPaid && (

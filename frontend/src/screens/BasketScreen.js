@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Row, Col, ListGroup, Button } from "react-bootstrap";
-import OrderItem from "../components/OrderItem";
+import BasketItem from "../components/BasketItem";
 import PriceSummary from "../components/PriceSummary";
 import { useSelector } from "react-redux";
 
@@ -18,7 +18,7 @@ const BasketScreen = ({ history }) => {
         <Col md={8}>
           <ListGroup>
             {basketItems.map((meal) => (
-              <OrderItem key={meal._id} meal={meal} />
+              <BasketItem key={meal._id} meal={meal} />
             ))}
           </ListGroup>
         </Col>

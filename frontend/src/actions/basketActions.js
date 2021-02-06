@@ -63,6 +63,7 @@ export const updateDeliveryCost = (data) => (dispatch) => {
     type: BASKET_UPDATE_DELIVERY_COST,
     payload: data,
   });
+  localStorage.setItem("deliveryCost", JSON.stringify(data));
 };
 
 export const updateDeliveryMethod = (data) => (dispatch) => {

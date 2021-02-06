@@ -1,15 +1,21 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Button, Row, Col, ListGroup, Image } from "react-bootstrap";
+import { Button, Row, Col, ListGroup, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { createOrder, resetCreatedOrder } from "../actions/orderActions";
-import { clearBasketItems } from "../actions/basketActions";
+import { clearBasketItems, savePaymentMethod } from "../actions/basketActions";
 import PriceSummary from "../components/PriceSummary";
+import OrderItem from "../components/OrderItem";
 
 const OrderSummaryScreen = ({ history }) => {
   const dispatch = useDispatch();
   const basket = useSelector((state) => state.basket);
-  const { basketItems, deliveryAddress, deliveryCost, deliveryMethod } = basket;
+  const {
+    basketItems,
+    deliveryAddress,
+    deliveryCost,
+    deliveryMethod,
+    paymentMethod,
+  } = basket;
 
   const orderCreate = useSelector((state) => state.orderCreate);
   const { order, success, error } = orderCreate;
@@ -29,15 +35,19 @@ const OrderSummaryScreen = ({ history }) => {
     }
   }, [history, success, order, dispatch]);
 
+  const setPaymentMethod = (method) => {
+    dispatch(savePaymentMethod(method));
+  };
+
   const submitHandler = () => {
     dispatch(
       createOrder({
         orderItems: basket.basketItems,
         deliveryAddress: basket.deliveryAddress,
-        deliveryMethod: "test",
-        paymentMethod: "paypal",
+        deliveryMethod: deliveryMethod,
+        paymentMethod: paymentMethod,
         itemsPrice: basketTotal,
-        deliveryPrice: basket.deliveryPrice,
+        deliveryPrice: basket.deliveryCost,
         totalPrice: orderTotal,
       })
     );
@@ -62,8 +72,31 @@ const OrderSummaryScreen = ({ history }) => {
 
             <ListGroup.Item>
               <h2>Payment Method</h2>
-              <strong>Method: </strong>
-              {basket.paymentMethod}
+              <Form>
+                <Form.Group>
+                  <Form.Check
+                    type="radio"
+                    label="Cash"
+                    id="Cash"
+                    name="paymentMethod"
+                    checked={paymentMethod === "Cash"}
+                    inline
+                    value="Cash"
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                  ></Form.Check>
+
+                  <Form.Check
+                    type="radio"
+                    label="PayPal"
+                    id="Paypal"
+                    name="paymentMethod"
+                    inline
+                    checked={paymentMethod === "PayPal"}
+                    value="PayPal"
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                  ></Form.Check>
+                </Form.Group>
+              </Form>
             </ListGroup.Item>
 
             <ListGroup.Item>
@@ -73,42 +106,7 @@ const OrderSummaryScreen = ({ history }) => {
               ) : (
                 <ListGroup variant="flush">
                   {basket.basketItems.map((item, index) => (
-                    <ListGroup.Item key={index}>
-                      <Row>
-                        <Col md={1}>
-                          <Image
-                            src={item.image}
-                            alt={item.name}
-                            fluid
-                            rounded
-                          />
-                        </Col>
-                        <Col>
-                          <Link
-                            to={`/product/${item.product}`}
-                            style={{ textDecoration: "none", color: "#111" }}
-                          >
-                            {item.name}
-                          </Link>
-                        </Col>
-                        <Col md={4}>£{item && item.price.toFixed(2)}</Col>
-                      </Row>
-
-                      {item.options.map((option) => (
-                        <Row className="description">
-                          <Col md={2}>
-                            {option.name}: {option.option}
-                          </Col>
-                          <Col></Col>
-                          <Col md={4}>£{option.price.toFixed(2)}</Col>
-                        </Row>
-                      ))}
-                      <Row>
-                        <Col md={2}>Item Total:</Col>
-                        <Col></Col>
-                        <Col md={4}>£{item.totalPrice.toFixed(2)}</Col>
-                      </Row>
-                    </ListGroup.Item>
+                    <OrderItem item={item} index={index} />
                   ))}
                 </ListGroup>
               )}

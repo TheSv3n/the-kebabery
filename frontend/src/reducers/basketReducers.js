@@ -24,7 +24,6 @@ export const basketReducer = (
   switch (action.type) {
     case BASKET_ADD_ITEM:
       const item = action.payload;
-
       return {
         ...state,
         basketItems: [...state.basketItems, item],

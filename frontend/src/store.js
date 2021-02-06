@@ -38,6 +38,10 @@ const deliveryMethodFromStorage = localStorage.getItem("deliveryMethod")
   ? JSON.parse(localStorage.getItem("deliveryMethod"))
   : "Delivery";
 
+const paymentMethodFromStorage = localStorage.getItem("deliveryMethod")
+  ? JSON.parse(localStorage.getItem("paymentMethod"))
+  : "PayPal";
+
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
@@ -48,6 +52,7 @@ const initialState = {
     deliveryAddress: deliveryAddressFromStorage,
     deliveryCost: deliveryCostFromStorage,
     deliveryMethod: deliveryMethodFromStorage,
+    paymentMethod: paymentMethodFromStorage,
   },
   userLogin: { userInfo: userInfoFromStorage },
 };
