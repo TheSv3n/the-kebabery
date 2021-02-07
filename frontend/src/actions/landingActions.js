@@ -5,4 +5,12 @@ export const toggleMenuActive = (currentState) => (dispatch, getState) => {
     type: MENU_ACTIVE_TOGGLE,
     payload: currentState,
   });
+  localStorage.setItem(
+    "menuToggle",
+    JSON.stringify(getState().menuToggle.menuToggle)
+  );
+  localStorage.setItem(
+    "menuActive",
+    JSON.stringify(getState().menuToggle.menuActive)
+  );
 };

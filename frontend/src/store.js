@@ -32,7 +32,7 @@ const deliveryAddressFromStorage = localStorage.getItem("deliveryAddress")
 
 const deliveryCostFromStorage = localStorage.getItem("deliveryCost")
   ? JSON.parse(localStorage.getItem("deliveryCost"))
-  : 0;
+  : 2.5;
 
 const deliveryMethodFromStorage = localStorage.getItem("deliveryMethod")
   ? JSON.parse(localStorage.getItem("deliveryMethod"))
@@ -46,6 +46,14 @@ const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
 
+const menuActiveFromStorage = localStorage.getItem("menuActive")
+  ? JSON.parse(localStorage.getItem("menuActive"))
+  : "active";
+
+const menuToggleFromStorage = localStorage.getItem("menuToggle")
+  ? JSON.parse(localStorage.getItem("menuToggle"))
+  : true;
+
 const initialState = {
   basket: {
     basketItems: basketItemsFromStorage,
@@ -55,6 +63,10 @@ const initialState = {
     paymentMethod: paymentMethodFromStorage,
   },
   userLogin: { userInfo: userInfoFromStorage },
+  menuToggle: {
+    menuActive: menuActiveFromStorage,
+    menuToggle: menuToggleFromStorage,
+  },
 };
 
 const middleware = [thunk];

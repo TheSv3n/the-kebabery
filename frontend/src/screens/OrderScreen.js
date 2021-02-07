@@ -9,8 +9,6 @@ import { getOrderDetails } from "../actions/orderActions";
 import OrderItem from "../components/OrderItem";
 
 const OrderScreen = ({ match, history }) => {
-  const orderId = match.params.id;
-
   const dispatch = useDispatch();
 
   const orderDetails = useSelector((state) => state.orderDetails);
@@ -58,9 +56,9 @@ const OrderScreen = ({ match, history }) => {
     <Message variant="danger">{error}</Message>
   ) : (
     <>
-      <h1>Order {order._id}</h1>
       <Row>
         <Col md={8}>
+          <h2>Order {order._id}</h2>
           <ListGroup variant="flush">
             <ListGroup.Item>
               <h2>{order.deliveryMethod}</h2>
@@ -117,7 +115,7 @@ const OrderScreen = ({ match, history }) => {
           </ListGroup>
         </Col>
         <Col md={4}>
-          <Card>
+          <Card className="my-1">
             <ListGroup variant="flush">
               <ListGroup.Item>
                 <h2>Order Summary</h2>
