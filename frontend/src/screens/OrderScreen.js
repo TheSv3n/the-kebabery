@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { PayPalButton } from "react-paypal-button-v2";
 import { Row, Col, ListGroup, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { getOrderDetails } from "../actions/orderActions";
+import { getOrderDetails, payOrder } from "../actions/orderActions";
 import OrderItem from "../components/OrderItem";
+import { ORDER_PAY_RESET } from "../constants/orderConstants";
 
 const OrderScreen = ({ match, history }) => {
   const dispatch = useDispatch();
@@ -41,7 +42,8 @@ const OrderScreen = ({ match, history }) => {
       document.body.appendChild(script);
     };
 
-    if (!order || successPay) {
+    if (!order || successPay || order._id !== match.params.id) {
+      dispatch({ type: ORDER_PAY_RESET });
       dispatch(getOrderDetails(match.params.id));
     } else if (!order.isPaid) {
       if (!window.paypal) {
@@ -50,16 +52,6 @@ const OrderScreen = ({ match, history }) => {
         setSdkReady(true);
       }
     }
-    //dispatch({ type: ORDER_DELIVER_RESET });
-    //if (!order && order._id !== orderId) {
-    //}
-    /*} else if (!order.isPaid) {
-      if (!window.paypal) {
-        addPayPalScript();
-      } else {
-        setSdkReady(true);
-      }
-    }*/
   }, [
     dispatch,
     match,
@@ -68,6 +60,11 @@ const OrderScreen = ({ match, history }) => {
     /*successDeliver,*/ userInfo,
     history,
   ]);
+
+  const successPaymentHandler = (paymentResult) => {
+    console.log(paymentResult);
+    dispatch(payOrder(match.params.id, paymentResult));
+  };
 
   return loading ? (
     <Loader />
@@ -157,7 +154,7 @@ const OrderScreen = ({ match, history }) => {
                   <Col>£{order.totalPrice.toFixed(2)}</Col>
                 </Row>
               </ListGroup.Item>
-              {/*!order.isPaid && (
+              {!order.isPaid && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
                   {!sdkReady ? (
@@ -169,7 +166,7 @@ const OrderScreen = ({ match, history }) => {
                     />
                   )}
                 </ListGroup.Item>
-                  )*/}
+              )}
               {/*loadingDeliver && <Loader />}
 
               {userInfo &&

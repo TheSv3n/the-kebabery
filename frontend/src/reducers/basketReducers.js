@@ -37,7 +37,6 @@ export const basketReducer = (
       return {
         ...state,
         basketItems: [],
-        deliveryCost: 0,
       };
     case BASKET_SAVE_DELIVERY_ADDRESS:
       return {
