@@ -11,8 +11,13 @@ import OrderItem from "../components/OrderItem";
 const OrderScreen = ({ match, history }) => {
   const dispatch = useDispatch();
 
+  const [sdkReady, setSdkReady] = useState(false);
+
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
+
+  const orderPay = useSelector((state) => state.orderPay);
+  const { loading: loadingPay, success: successPay } = orderPay;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -21,10 +26,10 @@ const OrderScreen = ({ match, history }) => {
     if (!userInfo) {
       history.push("/login");
     }
-    dispatch(getOrderDetails(match.params.id));
 
-    /*const addPayPalScript = async () => {
+    const addPayPalScript = async () => {
       const { data: clientId } = await axios.get("/api/config/paypal");
+
       const script = document.createElement("script");
       script.type = "text/javascript";
       script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
@@ -34,10 +39,17 @@ const OrderScreen = ({ match, history }) => {
       };
       console.log(script);
       document.body.appendChild(script);
-    };*/
+    };
 
-    //if (!order || successPay || successDeliver) {
-    //dispatch({ type: ORDER_PAY_RESET });
+    if (!order || successPay) {
+      dispatch(getOrderDetails(match.params.id));
+    } else if (!order.isPaid) {
+      if (!window.paypal) {
+        addPayPalScript();
+      } else {
+        setSdkReady(true);
+      }
+    }
     //dispatch({ type: ORDER_DELIVER_RESET });
     //if (!order && order._id !== orderId) {
     //}
@@ -48,7 +60,14 @@ const OrderScreen = ({ match, history }) => {
         setSdkReady(true);
       }
     }*/
-  }, [dispatch, match, /*successPay, successDeliver,*/ userInfo, history]);
+  }, [
+    dispatch,
+    match,
+    order,
+    successPay,
+    /*successDeliver,*/ userInfo,
+    history,
+  ]);
 
   return loading ? (
     <Loader />

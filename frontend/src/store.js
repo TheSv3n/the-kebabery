@@ -9,6 +9,7 @@ import { userLoginReducer } from "./reducers/userReducers";
 import {
   orderCreateReducer,
   orderDetailsReducer,
+  orderPayReducer,
 } from "./reducers/orderReducers";
 
 const reducer = combineReducers({
@@ -20,6 +21,7 @@ const reducer = combineReducers({
   userLogin: userLoginReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
+  orderPay: orderPayReducer,
 });
 
 const basketItemsFromStorage = localStorage.getItem("basketItems")
@@ -48,11 +50,11 @@ const userInfoFromStorage = localStorage.getItem("userInfo")
 
 const menuActiveFromStorage = localStorage.getItem("menuActive")
   ? JSON.parse(localStorage.getItem("menuActive"))
-  : "active";
+  : "";
 
 const menuToggleFromStorage = localStorage.getItem("menuToggle")
   ? JSON.parse(localStorage.getItem("menuToggle"))
-  : true;
+  : false;
 
 const initialState = {
   basket: {
