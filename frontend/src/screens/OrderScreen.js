@@ -5,9 +5,16 @@ import { Row, Col, ListGroup, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { getOrderDetails, payOrder } from "../actions/orderActions";
+import {
+  getOrderDetails,
+  payOrder,
+  deliverOrder,
+} from "../actions/orderActions";
 import OrderItem from "../components/OrderItem";
-import { ORDER_PAY_RESET } from "../constants/orderConstants";
+import {
+  ORDER_PAY_RESET,
+  ORDER_DELIVER_RESET,
+} from "../constants/orderConstants";
 
 const OrderScreen = ({ match, history }) => {
   const dispatch = useDispatch();
@@ -19,6 +26,9 @@ const OrderScreen = ({ match, history }) => {
 
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
+
+  const orderDeliver = useSelector((state) => state.orderDeliver);
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -33,7 +43,7 @@ const OrderScreen = ({ match, history }) => {
 
       const script = document.createElement("script");
       script.type = "text/javascript";
-      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
+      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=GBP`;
       script.async = true;
       script.onload = () => {
         setSdkReady(true);
@@ -42,8 +52,14 @@ const OrderScreen = ({ match, history }) => {
       document.body.appendChild(script);
     };
 
-    if (!order || successPay || order._id !== match.params.id) {
+    if (
+      !order ||
+      successPay ||
+      successDeliver ||
+      order._id !== match.params.id
+    ) {
       dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(getOrderDetails(match.params.id));
     } else if (!order.isPaid) {
       if (!window.paypal) {
@@ -52,18 +68,18 @@ const OrderScreen = ({ match, history }) => {
         setSdkReady(true);
       }
     }
-  }, [
-    dispatch,
-    match,
-    order,
-    successPay,
-    /*successDeliver,*/ userInfo,
-    history,
-  ]);
+  }, [dispatch, match, order, successPay, successDeliver, userInfo, history]);
 
   const successPaymentHandler = (paymentResult) => {
-    console.log(paymentResult);
     dispatch(payOrder(match.params.id, paymentResult));
+  };
+
+  const cashPaymentHandler = () => {
+    dispatch(payOrder(match.params.id, { cashPay: true }));
+  };
+
+  const deliverHandler = () => {
+    dispatch(deliverOrder(order));
   };
 
   return loading ? (
@@ -111,6 +127,10 @@ const OrderScreen = ({ match, history }) => {
               </p>
               {order.isPaid ? (
                 <Message variant="success">Paid on {order.paidAt}</Message>
+              ) : order.paymentMethod === "Cash" ? (
+                <Message variant="warning">
+                  Cash on {order.deliveryMethod}
+                </Message>
               ) : (
                 <Message variant="danger">Not Paid</Message>
               )}
@@ -154,7 +174,9 @@ const OrderScreen = ({ match, history }) => {
                   <Col>£{order.totalPrice.toFixed(2)}</Col>
                 </Row>
               </ListGroup.Item>
-              {!order.isPaid && (
+              {order.isPaid ? (
+                <ListGroup.Item className="mx-auto">Order paid</ListGroup.Item>
+              ) : order.paymentMethod === "PayPal" ? (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
                   {!sdkReady ? (
@@ -162,13 +184,27 @@ const OrderScreen = ({ match, history }) => {
                   ) : (
                     <PayPalButton
                       amount={order.totalPrice}
+                      currency="GBP"
                       onSuccess={successPaymentHandler}
                     />
                   )}
                 </ListGroup.Item>
+              ) : userInfo.isAdmin ? (
+                <ListGroup.Item>
+                  <Button
+                    type="button"
+                    className="btn btn-block"
+                    onClick={cashPaymentHandler}
+                  >
+                    Customer paid cash on {order.deliveryMethod}
+                  </Button>
+                </ListGroup.Item>
+              ) : (
+                <ListGroup.Item className="mx-auto">
+                  Please pay on {order.deliveryMethod}
+                </ListGroup.Item>
               )}
-              {/*loadingDeliver && <Loader />}
-
+              {loadingDeliver && <Loader />}
               {userInfo &&
                 userInfo.isAdmin &&
                 order.isPaid &&
@@ -182,7 +218,7 @@ const OrderScreen = ({ match, history }) => {
                       Mark as Delivered
                     </Button>
                   </ListGroup.Item>
-                )*/}
+                )}
             </ListGroup>
           </Card>
         </Col>
