@@ -5,7 +5,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { menuToggleReducer } from "./reducers/landingReducers";
 import { mealListReducer, mealDetailsReducer } from "./reducers/mealReducers";
 import { basketReducer, mealOptionsReducer } from "./reducers/basketReducers";
-import { userLoginReducer } from "./reducers/userReducers";
+import { userLoginReducer, userDetailsReducer } from "./reducers/userReducers";
 import {
   orderCreateReducer,
   orderDetailsReducer,
@@ -20,6 +20,7 @@ const reducer = combineReducers({
   mealOptions: mealOptionsReducer,
   basket: basketReducer,
   userLogin: userLoginReducer,
+  userDetails: userDetailsReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
