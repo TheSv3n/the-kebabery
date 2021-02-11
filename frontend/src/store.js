@@ -5,12 +5,17 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { menuToggleReducer } from "./reducers/landingReducers";
 import { mealListReducer, mealDetailsReducer } from "./reducers/mealReducers";
 import { basketReducer, mealOptionsReducer } from "./reducers/basketReducers";
-import { userLoginReducer, userDetailsReducer } from "./reducers/userReducers";
+import {
+  userLoginReducer,
+  userDetailsReducer,
+  userUpdateProfileReducer,
+} from "./reducers/userReducers";
 import {
   orderCreateReducer,
   orderDetailsReducer,
   orderPayReducer,
   orderDeliverReducer,
+  orderUserListReducer,
 } from "./reducers/orderReducers";
 
 const reducer = combineReducers({
@@ -21,10 +26,12 @@ const reducer = combineReducers({
   basket: basketReducer,
   userLogin: userLoginReducer,
   userDetails: userDetailsReducer,
+  userUpdateProfile: userUpdateProfileReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
   orderDeliver: orderDeliverReducer,
+  orderUserList: orderUserListReducer,
 });
 
 const basketItemsFromStorage = localStorage.getItem("basketItems")
