@@ -4,8 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getUserDetails, logout } from "../actions/userActions";
+import {
+  getUserDetails,
+  logout,
+  updateUserProfile,
+} from "../actions/userActions";
 import { listUserOrders } from "../actions/orderActions";
+import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
 
 const ProfileScreen = ({ location, history }) => {
   const [name, setName] = useState("");
@@ -34,7 +39,7 @@ const ProfileScreen = ({ location, history }) => {
       history.push("/login");
     } else {
       if (!user || !user.name || success) {
-        //dispatch({ type: USER_UPDATE_PROFILE_RESET });
+        dispatch({ type: USER_UPDATE_PROFILE_RESET });
         dispatch(getUserDetails("profile"));
         dispatch(listUserOrders());
       } else {
@@ -45,8 +50,15 @@ const ProfileScreen = ({ location, history }) => {
     }
   }, [dispatch, history, userInfo, user, success]);
 
-  const submitHandler = () => {
-    //TODO
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      setMessage("Passwords do not match");
+    } else {
+      dispatch(
+        updateUserProfile({ id: user._id, name, email, dateOfBirth, password })
+      );
+    }
   };
 
   const logoutHandler = () => {
@@ -59,9 +71,9 @@ const ProfileScreen = ({ location, history }) => {
         <h2>User Profile</h2>
         {message && <Message variant="danger">{message}</Message>}
         {error && <Message variant="danger">{error}</Message>}
-        {/*success && <Message variant="success">Profile Updated</Message>*/}
+        {success && <Message variant="success">Profile Updated</Message>}
         {loading && <Loader />}
-        <Form onSubmit={submitHandler}>
+        <Form>
           <Form.Group controlId="name">
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -85,7 +97,7 @@ const ProfileScreen = ({ location, history }) => {
             <Form.Control
               type="date"
               placeholder="Enter Date of Birth"
-              value={dateOfBirth}
+              value={dateOfBirth.substring(0, 10)}
               onChange={(e) => setDateOfBirth(e.target.value)}
             ></Form.Control>
           </Form.Group>
@@ -107,7 +119,7 @@ const ProfileScreen = ({ location, history }) => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             ></Form.Control>
           </Form.Group>
-          <Button type="submit" variant="primary">
+          <Button onClick={submitHandler} variant="primary">
             Update
           </Button>{" "}
           <Button onClick={logoutHandler} variant="danger">
