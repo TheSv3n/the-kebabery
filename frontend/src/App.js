@@ -11,6 +11,7 @@ import DeliveryScreen from "./screens/DeliveryScreen";
 import OrderSummaryScreen from "./screens/OrderSummaryScreen";
 import OrderScreen from "./screens/OrderScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/app.css";
 
@@ -20,6 +21,7 @@ function App() {
       <Router>
         <LandingPage />
         <Container>
+          <Route path="/register" component={RegisterScreen} />
           <Route path="/profile" component={ProfileScreen} />
           <Route path="/order/:id" component={OrderScreen} />
           <Route path="/ordersummary" component={OrderSummaryScreen} />

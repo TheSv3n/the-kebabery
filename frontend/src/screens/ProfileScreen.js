@@ -97,7 +97,7 @@ const ProfileScreen = ({ location, history }) => {
             <Form.Control
               type="date"
               placeholder="Enter Date of Birth"
-              value={dateOfBirth.substring(0, 10)}
+              value={dateOfBirth && dateOfBirth.substring(0, 10)}
               onChange={(e) => setDateOfBirth(e.target.value)}
             ></Form.Control>
           </Form.Group>

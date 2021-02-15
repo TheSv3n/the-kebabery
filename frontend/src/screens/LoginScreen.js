@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
+import Message from "../components/Message";
 import { login } from "../actions/userActions";
 
 const LoginScreen = ({ location, history }) => {
@@ -31,7 +32,7 @@ const LoginScreen = ({ location, history }) => {
       <Row className="justify-content-md-center">
         <Col xs={12} md={6}>
           <h1>Sign In</h1>
-          {error && { error }}
+          {error && <Message variant="danger">{error}</Message>}
           {loading && <Loader />}
           <Form onSubmit={submitHandler}>
             <Form.Group controlId="email">
