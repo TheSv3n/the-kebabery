@@ -30,7 +30,6 @@ const BasketItem = ({ meal }) => {
           variant="light"
           onClick={() => {
             removeFromBasketHandler(meal);
-            console.log(meal);
           }}
         >
           <i className="fas fa-trash" />

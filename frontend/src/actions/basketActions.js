@@ -2,6 +2,7 @@ import {
   BASKET_ADD_ITEM,
   BASKET_REMOVE_ITEM,
   BASKET_UPDATE_DELIVERY_COST,
+  BASKET_UPDATE_COOK_TIME,
   BASKET_SAVE_DELIVERY_ADDRESS,
   BASKET_SAVE_PAYMENT_METHOD,
   BASKET_ITEMS_RESET,
@@ -11,6 +12,19 @@ import {
   BASKET_OPTIONS_CALC_COST,
   BASKET_UPDATE_DELIVERY_METHOD,
 } from "../constants/basketConstants";
+
+const calculateCookTime = () => async (dispatch, getState) => {
+  let tempItems = getState().basket.basketItems;
+  let tempCookTime = 0;
+  for (let i = 0; i < tempItems.length; i++) {
+    if (tempItems[i].cookTime > tempCookTime) {
+      tempCookTime = tempItems[i].cookTime;
+    }
+  }
+  dispatch({ type: BASKET_UPDATE_COOK_TIME, payload: tempCookTime });
+
+  localStorage.setItem("cookTime", JSON.stringify(getState().basket.cookTime));
+};
 
 export const addToBasket = (meal, options, optionsTotal) => async (
   dispatch,
@@ -35,6 +49,8 @@ export const addToBasket = (meal, options, optionsTotal) => async (
     "basketItems",
     JSON.stringify(getState().basket.basketItems)
   );
+
+  dispatch(calculateCookTime());
 };
 
 export const removeFromBasket = (id) => (dispatch, getState) => {
@@ -47,6 +63,7 @@ export const removeFromBasket = (id) => (dispatch, getState) => {
     "basketItems",
     JSON.stringify(getState().basket.basketItems)
   );
+  dispatch(calculateCookTime());
 };
 
 export const saveDeliveryAddress = (data) => (dispatch) => {

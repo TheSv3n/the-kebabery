@@ -2,6 +2,7 @@ import {
   BASKET_ADD_ITEM,
   BASKET_REMOVE_ITEM,
   BASKET_UPDATE_DELIVERY_COST,
+  BASKET_UPDATE_COOK_TIME,
   BASKET_SAVE_DELIVERY_ADDRESS,
   BASKET_SAVE_PAYMENT_METHOD,
   BASKET_OPTIONS_SET,
@@ -52,6 +53,11 @@ export const basketReducer = (
       return {
         ...state,
         deliveryCost: action.payload,
+      };
+    case BASKET_UPDATE_COOK_TIME:
+      return {
+        ...state,
+        cookTime: action.payload,
       };
     case BASKET_SAVE_PAYMENT_METHOD:
       return {

@@ -56,6 +56,10 @@ const paymentMethodFromStorage = localStorage.getItem("deliveryMethod")
   ? JSON.parse(localStorage.getItem("paymentMethod"))
   : "PayPal";
 
+const cookTimeFromStorage = localStorage.getItem("cookTime")
+  ? JSON.parse(localStorage.getItem("cookTime"))
+  : 0;
+
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
@@ -75,6 +79,7 @@ const initialState = {
     deliveryCost: deliveryCostFromStorage,
     deliveryMethod: deliveryMethodFromStorage,
     paymentMethod: paymentMethodFromStorage,
+    cookTime: cookTimeFromStorage,
   },
   userLogin: { userInfo: userInfoFromStorage },
   menuToggle: {

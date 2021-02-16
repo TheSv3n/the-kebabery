@@ -10,7 +10,7 @@ import PriceSummary from "../components/PriceSummary";
 
 const DeliveryScreen = ({ history }) => {
   const basket = useSelector((state) => state.basket);
-  const { basketItems, deliveryAddress, deliveryMethod } = basket;
+  const { basketItems, deliveryAddress, deliveryMethod, cookTime } = basket;
 
   const [address, setAddress] = useState(deliveryAddress.address);
   const [city, setCity] = useState(deliveryAddress.city);
