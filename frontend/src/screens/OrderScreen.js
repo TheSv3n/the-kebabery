@@ -33,6 +33,9 @@ const OrderScreen = ({ match, history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const plannedCompletionTime =
+    order && order.plannedCompletionTime.substring(11, 16);
+
   useEffect(() => {
     if (!userInfo) {
       history.push("/login");
@@ -101,13 +104,17 @@ const OrderScreen = ({ match, history }) => {
                 <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
               </p>
               {order.deliveryMethod === "Collection" ? (
-                "Order will be available to collect in 20 mins"
+                `Order will be available to collect at ${plannedCompletionTime}`
               ) : (
-                <p>
-                  <strong>Address: </strong>
-                  {order.deliveryAddress.address}, {order.deliveryAddress.city}{" "}
-                  {order.deliveryAddress.postCode}
-                </p>
+                <>
+                  <p>Estimated delivery time {plannedCompletionTime}</p>
+                  <p>
+                    <strong>Address: </strong>
+                    {order.deliveryAddress.address},{" "}
+                    {order.deliveryAddress.city}{" "}
+                    {order.deliveryAddress.postCode}
+                  </p>
+                </>
               )}
 
               {order.isDelivered ? (

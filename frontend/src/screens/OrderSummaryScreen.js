@@ -15,6 +15,8 @@ const OrderSummaryScreen = ({ history }) => {
     deliveryCost,
     deliveryMethod,
     paymentMethod,
+    cookTime,
+    deliveryTime,
   } = basket;
 
   const orderCreate = useSelector((state) => state.orderCreate);
@@ -40,6 +42,13 @@ const OrderSummaryScreen = ({ history }) => {
   };
 
   const submitHandler = () => {
+    let plannedCompletionTime = new Date();
+    plannedCompletionTime.setHours(
+      plannedCompletionTime.getHours(),
+      plannedCompletionTime.getMinutes() + cookTime + deliveryTime,
+      0,
+      0
+    );
     dispatch(
       createOrder({
         orderItems: basket.basketItems,
@@ -49,6 +58,9 @@ const OrderSummaryScreen = ({ history }) => {
         itemsPrice: basketTotal,
         deliveryPrice: basket.deliveryCost,
         totalPrice: orderTotal,
+        cookTime: cookTime,
+        deliveryTime: deliveryTime,
+        plannedCompletionTime: plannedCompletionTime,
       })
     );
   };

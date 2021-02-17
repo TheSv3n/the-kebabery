@@ -5,6 +5,7 @@ import {
   saveDeliveryAddress,
   updateDeliveryCost,
   updateDeliveryMethod,
+  updateDeliveryTime,
 } from "../actions/basketActions";
 import PriceSummary from "../components/PriceSummary";
 
@@ -16,8 +17,13 @@ const DeliveryScreen = ({ history }) => {
   const [city, setCity] = useState(deliveryAddress.city);
   const [postCode, setPostCode] = useState(deliveryAddress.postCode);
 
-  const currentTime = new Date().toLocaleTimeString();
-  console.log(currentTime);
+  let collectionTime = new Date();
+  collectionTime.setHours(
+    collectionTime.getHours(),
+    collectionTime.getMinutes() + cookTime,
+    0,
+    0
+  );
 
   const dispatch = useDispatch();
 
@@ -27,9 +33,10 @@ const DeliveryScreen = ({ history }) => {
     history.push("/ordersummary");
   };
 
-  const setDeliveryMethod = (method, price) => {
+  const setDeliveryMethod = (method, price, time) => {
     dispatch(updateDeliveryMethod(method));
     dispatch(updateDeliveryCost(price));
+    dispatch(updateDeliveryTime(time));
   };
 
   return (
@@ -47,7 +54,7 @@ const DeliveryScreen = ({ history }) => {
                   checked={deliveryMethod === "Delivery"}
                   inline
                   value="Delivery"
-                  onChange={(e) => setDeliveryMethod(e.target.value, 2.5)}
+                  onChange={(e) => setDeliveryMethod(e.target.value, 2.5, 15)}
                 ></Form.Check>
 
                 <Form.Check
@@ -58,7 +65,7 @@ const DeliveryScreen = ({ history }) => {
                   inline
                   checked={deliveryMethod === "Collection"}
                   value="Collection"
-                  onChange={(e) => setDeliveryMethod(e.target.value, 0)}
+                  onChange={(e) => setDeliveryMethod(e.target.value, 0, 0)}
                 ></Form.Check>
               </Form.Group>
             </Form>
@@ -67,8 +74,8 @@ const DeliveryScreen = ({ history }) => {
             <>
               <h2>Collection</h2>
               <div>
-                Order will be ready for collection from The Kebabery in{" "}
-                {cookTime} mins
+                Order will be ready for collection from The Kebabery at{" "}
+                {collectionTime.toLocaleTimeString().substring(0, 5)}
               </div>
             </>
           ) : (

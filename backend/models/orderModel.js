@@ -78,18 +78,17 @@ const orderSchema = mongoose.Schema(
     deliveredAt: {
       type: Date,
     },
+    plannedCompletionTime: {
+      type: Date,
+      required: true,
+    },
     //Times in minutes
     cookTime: {
       type: Number,
       required: true,
       default: 0,
     },
-    travelTime: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    totalDeliveryTime: {
+    deliveryTime: {
       type: Number,
       required: true,
       default: 0,

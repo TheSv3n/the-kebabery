@@ -52,9 +52,13 @@ const deliveryMethodFromStorage = localStorage.getItem("deliveryMethod")
   ? JSON.parse(localStorage.getItem("deliveryMethod"))
   : "Delivery";
 
-const paymentMethodFromStorage = localStorage.getItem("deliveryMethod")
+const paymentMethodFromStorage = localStorage.getItem("paymentMethod")
   ? JSON.parse(localStorage.getItem("paymentMethod"))
   : "PayPal";
+
+const deliveryTimeFromStorage = localStorage.getItem("deliveryTime")
+  ? JSON.parse(localStorage.getItem("deliveryTime"))
+  : 0;
 
 const cookTimeFromStorage = localStorage.getItem("cookTime")
   ? JSON.parse(localStorage.getItem("cookTime"))
@@ -78,6 +82,7 @@ const initialState = {
     deliveryAddress: deliveryAddressFromStorage,
     deliveryCost: deliveryCostFromStorage,
     deliveryMethod: deliveryMethodFromStorage,
+    deliveryTime: deliveryTimeFromStorage,
     paymentMethod: paymentMethodFromStorage,
     cookTime: cookTimeFromStorage,
   },

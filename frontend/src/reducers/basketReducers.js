@@ -11,6 +11,7 @@ import {
   BASKET_OPTIONS_CALC_COST,
   BASKET_ITEMS_RESET,
   BASKET_UPDATE_DELIVERY_METHOD,
+  BASKET_UPDATE_DELIVERY_TIME,
 } from "../constants/basketConstants";
 
 export const basketReducer = (
@@ -53,6 +54,11 @@ export const basketReducer = (
       return {
         ...state,
         deliveryCost: action.payload,
+      };
+    case BASKET_UPDATE_DELIVERY_TIME:
+      return {
+        ...state,
+        deliveryTime: action.payload,
       };
     case BASKET_UPDATE_COOK_TIME:
       return {

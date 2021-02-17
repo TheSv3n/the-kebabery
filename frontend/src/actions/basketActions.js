@@ -11,6 +11,7 @@ import {
   BASKET_OPTIONS_RESET,
   BASKET_OPTIONS_CALC_COST,
   BASKET_UPDATE_DELIVERY_METHOD,
+  BASKET_UPDATE_DELIVERY_TIME,
 } from "../constants/basketConstants";
 
 const calculateCookTime = () => async (dispatch, getState) => {
@@ -81,6 +82,14 @@ export const updateDeliveryCost = (data) => (dispatch) => {
     payload: data,
   });
   localStorage.setItem("deliveryCost", JSON.stringify(data));
+};
+
+export const updateDeliveryTime = (data) => (dispatch) => {
+  dispatch({
+    type: BASKET_UPDATE_DELIVERY_TIME,
+    payload: data,
+  });
+  localStorage.setItem("deliveryTime", JSON.stringify(data));
 };
 
 export const updateDeliveryMethod = (data) => (dispatch) => {
