@@ -16,6 +16,9 @@ const DeliveryScreen = ({ history }) => {
   const [city, setCity] = useState(deliveryAddress.city);
   const [postCode, setPostCode] = useState(deliveryAddress.postCode);
 
+  const currentTime = new Date().toLocaleTimeString();
+  console.log(currentTime);
+
   const dispatch = useDispatch();
 
   const submitHandler = (e) => {
@@ -64,7 +67,8 @@ const DeliveryScreen = ({ history }) => {
             <>
               <h2>Collection</h2>
               <div>
-                Order will be ready for collection from The Kebabery in 20 mins
+                Order will be ready for collection from The Kebabery in{" "}
+                {cookTime} mins
               </div>
             </>
           ) : (
