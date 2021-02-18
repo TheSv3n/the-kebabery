@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Row, Col, ListGroup, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { createOrder, resetCreatedOrder } from "../actions/orderActions";
@@ -19,6 +19,8 @@ const OrderSummaryScreen = ({ history }) => {
     deliveryTime,
   } = basket;
 
+  const [currentTime, setTime] = useState(new Date());
+
   const orderCreate = useSelector((state) => state.orderCreate);
   const { order, success, error } = orderCreate;
 
@@ -35,7 +37,18 @@ const OrderSummaryScreen = ({ history }) => {
       dispatch(resetCreatedOrder());
       dispatch(clearBasketItems());
     }
-  }, [history, success, order, dispatch]);
+    const timer = setInterval(() => {
+      let completionTime = new Date();
+      completionTime.setHours(
+        completionTime.getHours(),
+        completionTime.getMinutes() + cookTime + deliveryTime
+      );
+      setTime(completionTime);
+    }, 1 * 100);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [history, success, order, dispatch, cookTime, deliveryTime]);
 
   const setPaymentMethod = (method) => {
     dispatch(savePaymentMethod(method));
@@ -72,13 +85,22 @@ const OrderSummaryScreen = ({ history }) => {
             <ListGroup.Item>
               <h2>{deliveryMethod}</h2>
               {deliveryMethod === "Collection" ? (
-                ""
+                <div>
+                  Order will be ready for collection from The Kebabery at{" "}
+                  {currentTime.toLocaleTimeString().substring(0, 5)}
+                </div>
               ) : (
-                <p>
-                  <strong>Address: </strong>
-                  {deliveryAddress.address}, {deliveryAddress.city},{" "}
-                  {deliveryAddress.postCode}
-                </p>
+                <>
+                  <div>
+                    Order will be delivered from The Kebabery at{" "}
+                    {currentTime.toLocaleTimeString().substring(0, 5)}
+                  </div>
+                  <p>
+                    <strong>Address: </strong>
+                    {deliveryAddress.address}, {deliveryAddress.city},{" "}
+                    {deliveryAddress.postCode}
+                  </p>
+                </>
               )}
             </ListGroup.Item>
 

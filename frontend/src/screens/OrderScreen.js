@@ -119,10 +119,18 @@ const OrderScreen = ({ match, history }) => {
 
               {order.isDelivered ? (
                 <Message variant="success">
-                  Delivered on {order.deliveredAt}
+                  {order.deliveryMethod === "Collection"
+                    ? "Collected on "
+                    : "Delivered on"}{" "}
+                  {order.deliveredAt}
                 </Message>
               ) : (
-                <Message variant="danger">Not Delivered</Message>
+                <Message variant="danger">
+                  Not{" "}
+                  {order.deliveryMethod === "Collection"
+                    ? "Collected"
+                    : "Delivered"}
+                </Message>
               )}
             </ListGroup.Item>
 

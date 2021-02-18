@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Container, Row, Col, ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -11,19 +11,18 @@ import PriceSummary from "../components/PriceSummary";
 
 const DeliveryScreen = ({ history }) => {
   const basket = useSelector((state) => state.basket);
-  const { basketItems, deliveryAddress, deliveryMethod, cookTime } = basket;
+  const {
+    basketItems,
+    deliveryAddress,
+    deliveryMethod,
+    cookTime,
+    deliveryTime,
+  } = basket;
 
   const [address, setAddress] = useState(deliveryAddress.address);
   const [city, setCity] = useState(deliveryAddress.city);
   const [postCode, setPostCode] = useState(deliveryAddress.postCode);
-
-  let collectionTime = new Date();
-  collectionTime.setHours(
-    collectionTime.getHours(),
-    collectionTime.getMinutes() + cookTime,
-    0,
-    0
-  );
+  const [currentTime, setTime] = useState(new Date());
 
   const dispatch = useDispatch();
 
@@ -38,6 +37,20 @@ const DeliveryScreen = ({ history }) => {
     dispatch(updateDeliveryCost(price));
     dispatch(updateDeliveryTime(time));
   };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      let completionTime = new Date();
+      completionTime.setHours(
+        completionTime.getHours(),
+        completionTime.getMinutes() + cookTime + deliveryTime
+      );
+      setTime(completionTime);
+    }, 1 * 100);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [cookTime, deliveryTime]);
 
   return (
     <Container className="my-1">
@@ -75,12 +88,16 @@ const DeliveryScreen = ({ history }) => {
               <h2>Collection</h2>
               <div>
                 Order will be ready for collection from The Kebabery at{" "}
-                {collectionTime.toLocaleTimeString().substring(0, 5)}
+                {currentTime.toLocaleTimeString().substring(0, 5)}
               </div>
             </>
           ) : (
             <>
               <h2>Delivery</h2>
+              <div>
+                Order will be delivered from The Kebabery at{" "}
+                {currentTime.toLocaleTimeString().substring(0, 5)}
+              </div>
               <Form>
                 <Form.Group controlId="address">
                   <Form.Label>Address</Form.Label>
