@@ -23,6 +23,7 @@ const DeliveryScreen = ({ history }) => {
   const [city, setCity] = useState(deliveryAddress.city);
   const [postCode, setPostCode] = useState(deliveryAddress.postCode);
   const [currentTime, setTime] = useState(new Date());
+  const [interval, setNewInterval] = useState(1);
 
   const dispatch = useDispatch();
 
@@ -36,6 +37,7 @@ const DeliveryScreen = ({ history }) => {
     dispatch(updateDeliveryMethod(method));
     dispatch(updateDeliveryCost(price));
     dispatch(updateDeliveryTime(time));
+    setNewInterval(1 * 1);
   };
 
   useEffect(() => {
@@ -46,11 +48,14 @@ const DeliveryScreen = ({ history }) => {
         completionTime.getMinutes() + cookTime + deliveryTime
       );
       setTime(completionTime);
-    }, 1 * 100);
+      if (interval === 1) {
+        setNewInterval(10 * 1000);
+      }
+    }, interval);
     return () => {
       clearInterval(timer);
     };
-  }, [cookTime, deliveryTime]);
+  }, [cookTime, deliveryTime, interval]);
 
   return (
     <Container className="my-1">

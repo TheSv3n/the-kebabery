@@ -61,9 +61,6 @@ const LandingPage = () => {
               Menu
             </div>
           </LinkContainer>
-          <div className="menu-item" onClick={() => toggleHandler("menu")}>
-            What's New
-          </div>
           <LinkContainer to="/contacts">
             <div className="menu-item" onClick={() => toggleHandler("menu")}>
               Contact Us
@@ -87,6 +84,15 @@ const LandingPage = () => {
                 Login
               </div>
             </LinkContainer>
+          )}
+          {userInfo && userInfo.isAdmin ? (
+            <LinkContainer to="/admin/orders">
+              <div className="menu-item" onClick={() => toggleHandler("menu")}>
+                Admin Options
+              </div>
+            </LinkContainer>
+          ) : (
+            ""
           )}
         </footer>
       </section>

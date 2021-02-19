@@ -33,7 +33,7 @@ const MenuScreen = ({ history }) => {
         "Error"
       ) : (
         <Row>
-          <Col md={8}>
+          <Col md={basketItems.length === 0 ? 12 : 8}>
             <ListGroup className="mt-3">
               {mealCategories.map((category) => (
                 <>
@@ -51,20 +51,24 @@ const MenuScreen = ({ history }) => {
               ))}
             </ListGroup>
           </Col>
-          <Col md={4}>
-            <PriceSummary />
-            <ListGroup.Item>{error && <div>{error}</div>}</ListGroup.Item>
-            <ListGroup.Item>
-              <Button
-                onClick={submitHandler}
-                className="btn-block"
-                type="button"
-                disabled={basketItems.length === 0}
-              >
-                Go to Basket
-              </Button>
-            </ListGroup.Item>
-          </Col>
+          {basketItems.length === 0 ? (
+            ""
+          ) : (
+            <Col md={4}>
+              <PriceSummary />
+              <ListGroup.Item>{error && <div>{error}</div>}</ListGroup.Item>
+              <ListGroup.Item>
+                <Button
+                  onClick={submitHandler}
+                  className="btn-block"
+                  type="button"
+                  disabled={basketItems.length === 0}
+                >
+                  Go to Basket
+                </Button>
+              </ListGroup.Item>
+            </Col>
+          )}
         </Row>
       )}
     </Container>

@@ -20,6 +20,7 @@ const OrderSummaryScreen = ({ history }) => {
   } = basket;
 
   const [currentTime, setTime] = useState(new Date());
+  const [interval, setNewInterval] = useState(1);
 
   const orderCreate = useSelector((state) => state.orderCreate);
   const { order, success, error } = orderCreate;
@@ -44,24 +45,20 @@ const OrderSummaryScreen = ({ history }) => {
         completionTime.getMinutes() + cookTime + deliveryTime
       );
       setTime(completionTime);
-    }, 1 * 100);
+      if (interval === 1) {
+        setNewInterval(10 * 1000);
+      }
+    }, interval);
     return () => {
       clearInterval(timer);
     };
-  }, [history, success, order, dispatch, cookTime, deliveryTime]);
+  }, [history, success, order, dispatch, cookTime, deliveryTime, interval]);
 
   const setPaymentMethod = (method) => {
     dispatch(savePaymentMethod(method));
   };
 
   const submitHandler = () => {
-    let plannedCompletionTime = new Date();
-    plannedCompletionTime.setHours(
-      plannedCompletionTime.getHours(),
-      plannedCompletionTime.getMinutes() + cookTime + deliveryTime,
-      0,
-      0
-    );
     dispatch(
       createOrder({
         orderItems: basket.basketItems,
@@ -73,7 +70,7 @@ const OrderSummaryScreen = ({ history }) => {
         totalPrice: orderTotal,
         cookTime: cookTime,
         deliveryTime: deliveryTime,
-        plannedCompletionTime: plannedCompletionTime,
+        plannedCompletionTime: currentTime,
       })
     );
   };
