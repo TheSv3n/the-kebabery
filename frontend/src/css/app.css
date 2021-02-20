@@ -6,3 +6,8 @@
 .meal-list-item {
   cursor: pointer;
 }
+
+.nav-item {
+  text-decoration: none;
+  color: black;
+}

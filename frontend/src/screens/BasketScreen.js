@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col, ListGroup, Button } from "react-bootstrap";
 import BasketItem from "../components/BasketItem";
 import PriceSummary from "../components/PriceSummary";
+import CheckoutSteps from "../components/CheckoutSteps";
 import { useSelector } from "react-redux";
 
 const BasketScreen = ({ history }) => {
@@ -14,6 +15,7 @@ const BasketScreen = ({ history }) => {
 
   return (
     <Container>
+      <CheckoutSteps step1 step2 />
       <Row>
         <Col md={8}>
           <ListGroup>

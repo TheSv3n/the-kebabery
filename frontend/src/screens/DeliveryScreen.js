@@ -8,6 +8,7 @@ import {
   updateDeliveryTime,
 } from "../actions/basketActions";
 import PriceSummary from "../components/PriceSummary";
+import CheckoutSteps from "../components/CheckoutSteps";
 
 const DeliveryScreen = ({ history }) => {
   const basket = useSelector((state) => state.basket);
@@ -59,6 +60,7 @@ const DeliveryScreen = ({ history }) => {
 
   return (
     <Container className="my-1">
+      <CheckoutSteps step1 step2 step3 />
       <Row>
         <Col md={8}>
           <Row>

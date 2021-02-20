@@ -5,6 +5,7 @@ import { createOrder, resetCreatedOrder } from "../actions/orderActions";
 import { clearBasketItems, savePaymentMethod } from "../actions/basketActions";
 import PriceSummary from "../components/PriceSummary";
 import OrderItem from "../components/OrderItem";
+import CheckoutSteps from "../components/CheckoutSteps";
 
 const OrderSummaryScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -76,6 +77,7 @@ const OrderSummaryScreen = ({ history }) => {
   };
   return (
     <>
+      <CheckoutSteps step1 step2 step3 step4 />
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">
