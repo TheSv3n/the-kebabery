@@ -13,6 +13,8 @@ import OrderScreen from "./screens/OrderScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import OrderListScreen from "./screens/OrderListScreen";
+import UserListScreen from "./screens/UserListScreen";
+import UserDetailsScreen from "./screens/UserDetailsScreen";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/app.css";
 
@@ -22,6 +24,8 @@ function App() {
       <Router>
         <LandingPage />
         <Container>
+          <Route path="/admin/user/:id/edit" component={UserDetailsScreen} />
+          <Route path="/admin/userlist" component={UserListScreen} />
           <Route path="/admin/orders" component={OrderListScreen} />
           <Route path="/register" component={RegisterScreen} />
           <Route path="/profile" component={ProfileScreen} />

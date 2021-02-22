@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { listOrders } from "../actions/orderActions";
+import AdminOptionsSwitch from "../components/AdminOptionsSwitch";
 
 const OrderListScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const OrderListScreen = ({ history }) => {
 
   return (
     <>
+      <AdminOptionsSwitch option="orders" />
       <h1>Orders</h1>
       {loading ? (
         <Loader />
@@ -49,7 +51,7 @@ const OrderListScreen = ({ history }) => {
                 <td>{order._id}</td>
                 <td>{order.user && order.user.name}</td>
                 <td>{order.createdAt.substring(0, 10)}</td>
-                <td>{order.totalPrice}</td>
+                <td>£{order.totalPrice.toFixed(2)}</td>
                 <td>
                   {order.isPaid ? (
                     order.paidAt.substring(0, 10)
