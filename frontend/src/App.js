@@ -15,6 +15,8 @@ import RegisterScreen from "./screens/RegisterScreen";
 import OrderListScreen from "./screens/OrderListScreen";
 import UserListScreen from "./screens/UserListScreen";
 import UserDetailsScreen from "./screens/UserDetailsScreen";
+import MealListScreen from "./screens/MealListScreen";
+import MealEditScreen from "./screens/MealEditScreen";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/app.css";
 
@@ -24,6 +26,8 @@ function App() {
       <Router>
         <LandingPage />
         <Container>
+          <Route path="/admin/meal/:id/edit" component={MealEditScreen} />
+          <Route path="/admin/meallist" component={MealListScreen} />
           <Route path="/admin/user/:id/edit" component={UserDetailsScreen} />
           <Route path="/admin/userlist" component={UserListScreen} />
           <Route path="/admin/orders" component={OrderListScreen} />

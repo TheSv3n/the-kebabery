@@ -75,4 +75,19 @@ const updateMeal = asyncHandler(async (req, res) => {
   }
 });
 
-export { getMeals, getMealById, createMeal, updateMeal };
+//@desc Delete a meal
+//@route DELETE /api/meals/:id
+//@access Private/Admin
+const deleteMeal = asyncHandler(async (req, res) => {
+  const meal = await Meal.findById(req.params.id);
+
+  if (meal) {
+    await meal.remove();
+    res.json({ message: "Meal removed" });
+  } else {
+    res.status(404);
+    throw new Error("Meal not found");
+  }
+});
+
+export { getMeals, getMealById, createMeal, updateMeal, deleteMeal };

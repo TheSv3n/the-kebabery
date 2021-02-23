@@ -3,7 +3,13 @@ import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import { menuToggleReducer } from "./reducers/landingReducers";
-import { mealListReducer, mealDetailsReducer } from "./reducers/mealReducers";
+import {
+  mealListReducer,
+  mealDetailsReducer,
+  mealCreateReducer,
+  mealDeleteReducer,
+  mealUpdateReducer,
+} from "./reducers/mealReducers";
 import { basketReducer, mealOptionsReducer } from "./reducers/basketReducers";
 import {
   userLoginReducer,
@@ -28,6 +34,9 @@ const reducer = combineReducers({
   mealList: mealListReducer,
   mealDetails: mealDetailsReducer,
   mealOptions: mealOptionsReducer,
+  mealCreate: mealCreateReducer,
+  mealDelete: mealDeleteReducer,
+  mealUpdate: mealUpdateReducer,
   basket: basketReducer,
   userLogin: userLoginReducer,
   userDetails: userDetailsReducer,

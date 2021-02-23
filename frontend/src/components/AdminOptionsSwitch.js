@@ -6,22 +6,32 @@ const AdminOptionsSwitch = ({ option }) => {
   return (
     <Nav className="justify-content-center mb-4">
       <Nav.Item>
-        {option === "users" ? (
+        {option === "orders" ? (
+          <Nav.Link disabled>Orders</Nav.Link>
+        ) : (
           <LinkContainer className="nav-item" to="/admin/orders">
             <Nav.Link>Orders</Nav.Link>
           </LinkContainer>
-        ) : (
-          <Nav.Link disabled>Orders</Nav.Link>
         )}
       </Nav.Item>
 
       <Nav.Item>
-        {option === "orders" ? (
+        {option === "meals" ? (
+          <Nav.Link disabled>Meals</Nav.Link>
+        ) : (
+          <LinkContainer className="nav-item" to="/admin/meallist">
+            <Nav.Link>Meals</Nav.Link>
+          </LinkContainer>
+        )}
+      </Nav.Item>
+
+      <Nav.Item>
+        {option === "users" ? (
+          <Nav.Link disabled>Users</Nav.Link>
+        ) : (
           <LinkContainer className="nav-item" to="/admin/userlist">
             <Nav.Link>Users</Nav.Link>
           </LinkContainer>
-        ) : (
-          <Nav.Link disabled>Users</Nav.Link>
         )}
       </Nav.Item>
     </Nav>
