@@ -7,6 +7,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { listMealDetails, updateMeal } from "../actions/mealActions";
 import { MEAL_UPDATE_RESET } from "../constants/mealConstants";
+import { Container, Row, Col } from "react-bootstrap";
 
 const MealEditScreen = ({ match, history }) => {
   const mealId = match.params.id;
@@ -46,13 +47,139 @@ const MealEditScreen = ({ match, history }) => {
         setPrice(meal.price);
         setImage(meal.image);
         setCategory(meal.category);
-        setCountInStock(meal.countInSock);
+        setCountInStock(meal.countInStock);
         setDescription(meal.description);
+        setOptions(meal.options);
+        setWarningInfo(meal.warningInfo);
       }
     }
   }, [dispatch, history, mealId, meal, successUpdate]);
 
-  return <div>Meal Edit</div>;
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    dispatch(
+      updateMeal({
+        _id: mealId,
+        name,
+        price,
+        image,
+        category,
+        description,
+        countInStock,
+        options,
+        warningInfo,
+      })
+    );
+  };
+
+  const uploadFileHandler = async (e) => {
+    //TODO
+  };
+
+  return (
+    <>
+      <Link to="/admin/meallist" className="btn btn-light my-3">
+        Go Back
+      </Link>
+
+      <Container>
+        <Row className="justify-content-md-center">
+          <Col xs={12} md={6}>
+            <h1>Edit Meal</h1>
+            {loadingUpdate && <Loader />}
+            {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
+
+            {loading ? (
+              <Loader />
+            ) : error ? (
+              <Message variant="danger">{error}</Message>
+            ) : (
+              <Form onSubmit={submitHandler}>
+                <Form.Group controlId="name">
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group controlId="description">
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group controlId="price">
+                  <Form.Label>Price</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="Enter price"
+                    value={price.toFixed(2)}
+                    onChange={(e) => setPrice(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group controlId="image">
+                  <Form.Label>Image</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter image url"
+                    value={image}
+                    onChange={(e) => setImage(e.target.value)}
+                  ></Form.Control>
+                  <Form.File
+                    id="image-file"
+                    label="Choose File"
+                    custom
+                    onChange={uploadFileHandler}
+                  ></Form.File>
+                  {uploading && <Loader />}
+                </Form.Group>
+
+                {options.map((option) => {
+                  return (
+                    <>
+                      <strong>{option.name}</strong>
+                      {option.options.map((option) => {
+                        return <div>{option.name}</div>;
+                      })}
+                    </>
+                  );
+                })}
+
+                <Form.Group controlId="countInStock">
+                  <Form.Label>Count in Stock</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="Enter Count in Stock"
+                    value={countInStock}
+                    onChange={(e) => setCountInStock(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+                <Form.Group controlId="category">
+                  <Form.Label>Category</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter category"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+
+                <Button type="submit" variant="primary">
+                  Update
+                </Button>
+              </Form>
+            )}
+          </Col>
+        </Row>
+      </Container>
+    </>
+  );
 };
 
 export default MealEditScreen;

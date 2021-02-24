@@ -11,6 +11,9 @@ import {
   MEAL_CREATE_REQUEST,
   MEAL_CREATE_SUCCESS,
   MEAL_CREATE_FAIL,
+  MEAL_UPDATE_REQUEST,
+  MEAL_UPDATE_SUCCESS,
+  MEAL_UPDATE_FAIL,
 } from "../constants/mealConstants";
 import {
   calculateOptionCost,
@@ -127,6 +130,40 @@ export const createMeal = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: MEAL_CREATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const updateMeal = (meal) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: MEAL_UPDATE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(`/api/meal/${meal._id}`, meal, config);
+
+    dispatch({
+      type: MEAL_UPDATE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: MEAL_UPDATE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
