@@ -23,6 +23,12 @@ const MealEditScreen = ({ match, history }) => {
   const [options, setOptions] = useState([]);
   const [warningInfo, setWarningInfo] = useState([]);
 
+  const [optionName, setOptionName] = useState("");
+  const [optionMaxChoices, setOptionMaxChoices] = useState(1);
+
+  const [selectionName, setSelectionName] = useState("");
+  const [selectionPrice, setSelectionPrice] = useState(0);
+
   const dispatch = useDispatch();
 
   const mealDetails = useSelector((state) => state.mealDetails);
@@ -77,6 +83,22 @@ const MealEditScreen = ({ match, history }) => {
     //TODO
   };
 
+  const addOptionHandler = (e) => {
+    e.preventDefault();
+  };
+
+  const deleteOptionHandler = (e) => {
+    e.preventDefault();
+  };
+
+  const addSelectionHandler = (e) => {
+    e.preventDefault();
+  };
+
+  const deleteSelectionHandler = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       <Link to="/admin/meallist" className="btn btn-light my-3">
@@ -95,85 +117,158 @@ const MealEditScreen = ({ match, history }) => {
             ) : error ? (
               <Message variant="danger">{error}</Message>
             ) : (
-              <Form onSubmit={submitHandler}>
-                <Form.Group controlId="name">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  ></Form.Control>
-                </Form.Group>
-                <Form.Group controlId="description">
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  ></Form.Control>
-                </Form.Group>
-                <Form.Group controlId="price">
-                  <Form.Label>Price</Form.Label>
-                  <Form.Control
-                    type="number"
-                    placeholder="Enter price"
-                    value={price.toFixed(2)}
-                    onChange={(e) => setPrice(e.target.value)}
-                  ></Form.Control>
-                </Form.Group>
-                <Form.Group controlId="image">
-                  <Form.Label>Image</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter image url"
-                    value={image}
-                    onChange={(e) => setImage(e.target.value)}
-                  ></Form.Control>
-                  <Form.File
-                    id="image-file"
-                    label="Choose File"
-                    custom
-                    onChange={uploadFileHandler}
-                  ></Form.File>
-                  {uploading && <Loader />}
-                </Form.Group>
+              <>
+                <Form>
+                  <Form.Group controlId="name">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
+                  <Form.Group controlId="description">
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter description"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
+                  <Form.Group controlId="price">
+                    <Form.Label>Price</Form.Label>
+                    <Form.Control
+                      type="number"
+                      placeholder="Enter price"
+                      value={price.toFixed(2)}
+                      onChange={(e) => setPrice(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
+                  <Form.Group controlId="image">
+                    <Form.Label>Image</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter image url"
+                      value={image}
+                      onChange={(e) => setImage(e.target.value)}
+                    ></Form.Control>
+                    <Form.File
+                      id="image-file"
+                      label="Choose File"
+                      custom
+                      onChange={uploadFileHandler}
+                    ></Form.File>
+                    {uploading && <Loader />}
+                  </Form.Group>
 
-                {options.map((option) => {
-                  return (
-                    <>
-                      <strong>{option.name}</strong>
-                      {option.selections.map((option) => {
-                        return <div>{option.name}</div>;
-                      })}
-                    </>
-                  );
-                })}
+                  {options.map((option) => {
+                    return (
+                      <>
+                        <Row>
+                          <Col md={5}>
+                            <strong>{option.name}</strong>
+                          </Col>
+                          <Col md={4}>
+                            <strong>{option.maxChoices}</strong>
+                          </Col>
+                          <Col md={1}>
+                            <Button
+                              variant="danger"
+                              className="btn-sm"
+                              onClick={() => deleteOptionHandler()}
+                            >
+                              <i className="fas fa-minus-circle"></i>
+                            </Button>
+                          </Col>
+                        </Row>
+                        {option.selections.map((selection) => {
+                          return (
+                            <Row>
+                              <Col md={5}>{selection.name}</Col>
+                              <Col md={4}>{selection.price.toFixed(2)}</Col>
+                              <Col md={1}>
+                                <Button
+                                  variant="danger"
+                                  className="btn-sm"
+                                  onClick={() => deleteSelectionHandler()}
+                                >
+                                  <i className="fas fa-minus-circle"></i>
+                                </Button>
+                              </Col>
+                            </Row>
+                          );
+                        })}
+                      </>
+                    );
+                  })}
 
-                <Form.Group controlId="countInStock">
-                  <Form.Label>Count in Stock</Form.Label>
-                  <Form.Control
-                    type="number"
-                    placeholder="Enter Count in Stock"
-                    value={countInStock}
-                    onChange={(e) => setCountInStock(e.target.value)}
-                  ></Form.Control>
-                </Form.Group>
-                <Form.Group controlId="category">
-                  <Form.Label>Category</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter category"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                  ></Form.Control>
-                </Form.Group>
+                  <Row>
+                    <Col md={5}>
+                      <Form.Group controlId="addOption">
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="Enter Name"
+                          value={optionName}
+                          onChange={(e) => setOptionName(e.target.value)}
+                        ></Form.Control>
+                      </Form.Group>
+                    </Col>
+                    <Col md={4}>
+                      <Form.Group controlId="addOption">
+                        <Form.Label>Max Choices</Form.Label>
+                        <Form.Control
+                          type="number"
+                          placeholder="Enter max choices"
+                          value={optionMaxChoices}
+                          onChange={(e) => setOptionMaxChoices(e.target.value)}
+                        ></Form.Control>
+                      </Form.Group>
+                    </Col>
+                    <Col md={1}>
+                      <Form.Group controlId="addOption">
+                        <Form.Label>.</Form.Label>
+                        <Button
+                          variant="success"
+                          className="btn-sm"
+                          onClick={() => addOptionHandler()}
+                        >
+                          <i className="fas fa-plus-circle"></i>
+                        </Button>
+                      </Form.Group>
+                    </Col>
+                  </Row>
 
-                <Button type="submit" variant="primary">
-                  Update
-                </Button>
-              </Form>
+                  <Form.Group controlId="countInStock">
+                    <Form.Label>Count in Stock</Form.Label>
+                    <Form.Control
+                      type="number"
+                      placeholder="Enter Count in Stock"
+                      value={countInStock}
+                      onChange={(e) => setCountInStock(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
+                  <Form.Group controlId="category">
+                    <Form.Label>Category</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter category"
+                      value={category}
+                      onChange={(e) => setCategory(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
+
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    onClick={submitHandler}
+                  >
+                    Update
+                  </Button>
+                </Form>
+              </>
             )}
           </Col>
         </Row>
