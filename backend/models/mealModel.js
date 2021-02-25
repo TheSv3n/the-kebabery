@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const optionSchema = mongoose.Schema({
+const selectionSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -26,7 +26,7 @@ const optionGroupSchema = mongoose.Schema({
     required: true,
     default: 0, //0 = unlimited
   },
-  options: [optionSchema],
+  selections: [selectionSchema],
 });
 
 const warningSchema = mongoose.Schema({

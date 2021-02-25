@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const itemOptionSchema = mongoose.Schema({
   name: { type: String, required: true },
-  option: { type: String, required: true },
+  selection: { type: String, required: true },
   price: { type: Number, required: true },
 });
 

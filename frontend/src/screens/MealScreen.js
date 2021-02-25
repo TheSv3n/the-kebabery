@@ -32,7 +32,7 @@ const MealScreen = ({ match, history }) => {
       updateMealOption({
         id: id,
         name: name,
-        option: option.split("-", 2)[0],
+        selection: option.split("-", 2)[0],
         price: parseFloat(option.split("-", 2)[1]),
       })
     );
@@ -51,7 +51,7 @@ const MealScreen = ({ match, history }) => {
       {loading ? (
         <Loader />
       ) : error ? (
-        <div>Error</div>
+        <div>{error}</div>
       ) : (
         <>
           <Row>
@@ -105,11 +105,12 @@ const MealScreen = ({ match, history }) => {
                                 );
                               }}
                             >
-                              {option.options.map((option) => (
+                              {option.selections.map((selection) => (
                                 <option
-                                  value={`${option.name}-${option.price}`}
+                                  value={`${selection.name}-${selection.price}`}
                                 >
-                                  {option.name} (+ £{option.price.toFixed(2)})
+                                  {selection.name} (+ £
+                                  {selection.price.toFixed(2)})
                                 </option>
                               ))}
                             </Form.Control>

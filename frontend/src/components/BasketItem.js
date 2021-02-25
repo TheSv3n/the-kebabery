@@ -19,7 +19,7 @@ const BasketItem = ({ meal }) => {
         <Row>
           {meal.options.map((option) => (
             <Col className="description">
-              {option.name}: {option.option}
+              {option.name}: {option.selection}
             </Col>
           ))}
         </Row>

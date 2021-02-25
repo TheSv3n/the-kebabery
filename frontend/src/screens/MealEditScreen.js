@@ -144,7 +144,7 @@ const MealEditScreen = ({ match, history }) => {
                   return (
                     <>
                       <strong>{option.name}</strong>
-                      {option.options.map((option) => {
+                      {option.selections.map((option) => {
                         return <div>{option.name}</div>;
                       })}
                     </>

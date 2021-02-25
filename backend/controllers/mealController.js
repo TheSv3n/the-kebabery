@@ -33,6 +33,7 @@ const createMeal = asyncHandler(async (req, res) => {
     image: "/images/sample.jpg",
     category: "Sample category",
     description: "Sample description",
+    options: [],
     countInStock: 0,
   });
 

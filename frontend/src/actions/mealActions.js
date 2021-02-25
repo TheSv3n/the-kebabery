@@ -51,8 +51,8 @@ export const listMealDetails = (id) => async (dispatch) => {
       let currentOption = {
         id: data.options[i]._id,
         name: data.options[i].name,
-        option: data.options[i].options[0].name,
-        price: data.options[i].options[0].price,
+        selection: data.options[i].selections[0].name,
+        price: data.options[i].selections[0].price,
       };
       defaultOptions.push(currentOption);
     }

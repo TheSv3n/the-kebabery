@@ -23,7 +23,7 @@ const OrderItem = ({ item, index }) => {
       {item.options.map((option) => (
         <Row className="description">
           <Col md={2}>
-            {option.name}: {option.option}
+            {option.name}: {option.selection}
           </Col>
           <Col></Col>
           <Col md={4}>£{option.price.toFixed(2)}</Col>
