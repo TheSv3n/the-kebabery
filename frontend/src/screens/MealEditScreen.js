@@ -8,6 +8,7 @@ import Loader from "../components/Loader";
 import { listMealDetails, updateMeal } from "../actions/mealActions";
 import { MEAL_UPDATE_RESET } from "../constants/mealConstants";
 import { Container, Row, Col } from "react-bootstrap";
+import { v4 as uuid } from "uuid";
 
 const MealEditScreen = ({ match, history }) => {
   const mealId = match.params.id;
@@ -25,6 +26,7 @@ const MealEditScreen = ({ match, history }) => {
 
   const [optionName, setOptionName] = useState("");
   const [optionMaxChoices, setOptionMaxChoices] = useState(1);
+  const [optionRequired, setOptionRequired] = useState(false);
 
   const [selectionName, setSelectionName] = useState("");
   const [selectionPrice, setSelectionPrice] = useState(0);
@@ -83,20 +85,53 @@ const MealEditScreen = ({ match, history }) => {
     //TODO
   };
 
-  const addOptionHandler = (e) => {
-    e.preventDefault();
+  const addOptionHandler = () => {
+    let tempOptions = options;
+    let newOption = {
+      name: optionName,
+      maxChoices: optionMaxChoices,
+      required: optionRequired,
+      selections: [],
+    };
+    tempOptions = [...tempOptions, newOption];
+    setOptions(tempOptions);
+    setOptionName("");
+    setOptionMaxChoices(1);
   };
 
-  const deleteOptionHandler = (e) => {
-    e.preventDefault();
+  const deleteOptionHandler = (optionId) => {
+    let tempOptions = options;
+    let optionIndex = tempOptions.findIndex((i) => i._id === optionId);
+    tempOptions = tempOptions.splice(optionIndex, 1);
+    setOptions(tempOptions);
   };
 
-  const addSelectionHandler = (e) => {
-    e.preventDefault();
+  const addSelectionHandler = (optionId) => {
+    let tempOptions = options;
+    let index = tempOptions.findIndex((i) => i._id === optionId);
+    let tempSelections = tempOptions[index].selections;
+    let newSelection = {
+      name: selectionName,
+      _id: uuid(),
+      price: selectionPrice,
+    };
+    tempSelections = [...tempSelections, newSelection];
+    tempOptions[index].selections = tempSelections;
+    setOptions(tempOptions);
+    setSelectionName("");
+    setSelectionPrice(0);
   };
 
-  const deleteSelectionHandler = (e) => {
-    e.preventDefault();
+  const deleteSelectionHandler = (selectionId, optionId) => {
+    let tempOptions = options;
+    let optionIndex = tempOptions.findIndex((i) => i._id === optionId);
+    let tempSelections = tempOptions[optionIndex].selections;
+
+    let selectionIndex = tempSelections.findIndex((i) => i._id === selectionId);
+    tempSelections = tempSelections.splice(selectionIndex, 1);
+    tempOptions.selections = tempSelections;
+    setOptions(tempOptions);
+    console.log(options);
   };
 
   return (
@@ -176,8 +211,8 @@ const MealEditScreen = ({ match, history }) => {
                           <Col md={1}>
                             <Button
                               variant="danger"
-                              className="btn-sm"
-                              onClick={() => deleteOptionHandler()}
+                              className="btn-sm mb-1"
+                              onClick={() => deleteOptionHandler(option._id)}
                             >
                               <i className="fas fa-minus-circle"></i>
                             </Button>
@@ -187,12 +222,17 @@ const MealEditScreen = ({ match, history }) => {
                           return (
                             <Row>
                               <Col md={5}>{selection.name}</Col>
-                              <Col md={4}>{selection.price.toFixed(2)}</Col>
+                              <Col md={4}>{selection.price}</Col>
                               <Col md={1}>
                                 <Button
                                   variant="danger"
-                                  className="btn-sm"
-                                  onClick={() => deleteSelectionHandler()}
+                                  className="btn-sm mb-1"
+                                  onClick={() =>
+                                    deleteSelectionHandler(
+                                      selection._id,
+                                      option._id
+                                    )
+                                  }
                                 >
                                   <i className="fas fa-minus-circle"></i>
                                 </Button>
@@ -200,6 +240,46 @@ const MealEditScreen = ({ match, history }) => {
                             </Row>
                           );
                         })}
+                        <Row>
+                          <Col md={5}>
+                            <Form.Group controlId="addOption">
+                              <Form.Label>Name</Form.Label>
+                              <Form.Control
+                                type="text"
+                                placeholder="Enter Name"
+                                value={selectionName}
+                                onChange={(e) =>
+                                  setSelectionName(e.target.value)
+                                }
+                              ></Form.Control>
+                            </Form.Group>
+                          </Col>
+                          <Col md={4}>
+                            <Form.Group controlId="addOption">
+                              <Form.Label>Price</Form.Label>
+                              <Form.Control
+                                type="number"
+                                placeholder="Enter max choices"
+                                value={selectionPrice}
+                                onChange={(e) =>
+                                  setSelectionPrice(e.target.value)
+                                }
+                              ></Form.Control>
+                            </Form.Group>
+                          </Col>
+                          <Col md={1}>
+                            <Form.Group controlId="addOption">
+                              <Form.Label>.</Form.Label>
+                              <Button
+                                variant="success"
+                                className="btn-sm"
+                                onClick={() => addSelectionHandler(option._id)}
+                              >
+                                <i className="fas fa-plus-circle"></i>
+                              </Button>
+                            </Form.Group>
+                          </Col>
+                        </Row>
                       </>
                     );
                   })}
