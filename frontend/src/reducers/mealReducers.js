@@ -84,7 +84,7 @@ export const mealUpdateReducer = (state = { meal: {} }, action) => {
     case MEAL_UPDATE_FAIL:
       return { loading: false, error: action.payload };
     case MEAL_UPDATE_RESET:
-      return { product: {} };
+      return { meal: {} };
     default:
       return state;
   }

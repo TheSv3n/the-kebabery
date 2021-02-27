@@ -44,22 +44,18 @@ const MealEditScreen = ({ match, history }) => {
   } = mealUpdate;
 
   useEffect(() => {
-    if (successUpdate) {
+    if (!meal.name || meal._id !== mealId || successUpdate) {
       dispatch({ type: MEAL_UPDATE_RESET });
-      history.push("/admin/meallist");
+      dispatch(listMealDetails(mealId));
     } else {
-      if (!meal.name || meal._id !== mealId) {
-        dispatch(listMealDetails(mealId));
-      } else {
-        setName(meal.name);
-        setPrice(meal.price);
-        setImage(meal.image);
-        setCategory(meal.category);
-        setCountInStock(meal.countInStock);
-        setDescription(meal.description);
-        setOptions(meal.options);
-        setWarningInfo(meal.warningInfo);
-      }
+      setName(meal.name);
+      setPrice(meal.price);
+      setImage(meal.image);
+      setCategory(meal.category);
+      setCountInStock(meal.countInStock);
+      setDescription(meal.description);
+      setOptions(meal.options);
+      setWarningInfo(meal.warningInfo);
     }
   }, [dispatch, history, mealId, meal, successUpdate]);
 
@@ -82,7 +78,25 @@ const MealEditScreen = ({ match, history }) => {
   };
 
   const uploadFileHandler = async (e) => {
-    //TODO
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    setUploading(true);
+
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "mutipart/form-data",
+        },
+      };
+
+      const { data } = await axios.post("/api/upload", formData, config);
+      setImage(data);
+      setUploading(false);
+    } catch (error) {
+      console.error(error);
+      setUploading(false);
+    }
   };
 
   const addOptionHandler = () => {
@@ -112,7 +126,7 @@ const MealEditScreen = ({ match, history }) => {
     let tempSelections = tempOptions[index].selections;
     let newSelection = {
       name: selectionName,
-      _id: uuid(),
+      //_id: uuid(),
       price: selectionPrice,
     };
     tempSelections = [...tempSelections, newSelection];
@@ -131,7 +145,6 @@ const MealEditScreen = ({ match, history }) => {
     tempSelections = tempSelections.splice(selectionIndex, 1);
     tempOptions.selections = tempSelections;
     setOptions(tempOptions);
-    console.log(options);
   };
 
   return (
@@ -177,7 +190,7 @@ const MealEditScreen = ({ match, history }) => {
                     <Form.Control
                       type="number"
                       placeholder="Enter price"
-                      value={price.toFixed(2)}
+                      value={price}
                       onChange={(e) => setPrice(e.target.value)}
                     ></Form.Control>
                   </Form.Group>
@@ -255,11 +268,11 @@ const MealEditScreen = ({ match, history }) => {
                             </Form.Group>
                           </Col>
                           <Col md={4}>
-                            <Form.Group controlId="addOption">
+                            <Form.Group controlId="addSelectionPrice">
                               <Form.Label>Price</Form.Label>
                               <Form.Control
                                 type="number"
-                                placeholder="Enter max choices"
+                                placeholder="Enter Price"
                                 value={selectionPrice}
                                 onChange={(e) =>
                                   setSelectionPrice(e.target.value)
@@ -268,7 +281,7 @@ const MealEditScreen = ({ match, history }) => {
                             </Form.Group>
                           </Col>
                           <Col md={1}>
-                            <Form.Group controlId="addOption">
+                            <Form.Group controlId="addSelectionSubmit">
                               <Form.Label>.</Form.Label>
                               <Button
                                 variant="success"

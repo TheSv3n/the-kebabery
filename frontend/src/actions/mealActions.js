@@ -155,7 +155,7 @@ export const updateMeal = (meal) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`/api/meal/${meal._id}`, meal, config);
+    const { data } = await axios.put(`/api/meals/${meal._id}`, meal, config);
 
     dispatch({
       type: MEAL_UPDATE_SUCCESS,
