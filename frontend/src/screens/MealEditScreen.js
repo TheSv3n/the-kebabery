@@ -8,7 +8,6 @@ import Loader from "../components/Loader";
 import { listMealDetails, updateMeal } from "../actions/mealActions";
 import { MEAL_UPDATE_RESET } from "../constants/mealConstants";
 import { Container, Row, Col } from "react-bootstrap";
-import { v4 as uuid } from "uuid";
 
 const MealEditScreen = ({ match, history }) => {
   const mealId = match.params.id;
@@ -100,7 +99,7 @@ const MealEditScreen = ({ match, history }) => {
   };
 
   const addOptionHandler = () => {
-    let tempOptions = options;
+    let tempOptions = [...options];
     let newOption = {
       name: optionName,
       maxChoices: optionMaxChoices,
@@ -114,19 +113,18 @@ const MealEditScreen = ({ match, history }) => {
   };
 
   const deleteOptionHandler = (optionId) => {
-    let tempOptions = options;
+    let tempOptions = [...options];
     let optionIndex = tempOptions.findIndex((i) => i._id === optionId);
-    tempOptions = tempOptions.splice(optionIndex, 1);
+    tempOptions.splice(optionIndex, 1);
     setOptions(tempOptions);
   };
 
   const addSelectionHandler = (optionId) => {
-    let tempOptions = options;
+    let tempOptions = [...options];
     let index = tempOptions.findIndex((i) => i._id === optionId);
     let tempSelections = tempOptions[index].selections;
     let newSelection = {
       name: selectionName,
-      //_id: uuid(),
       price: selectionPrice,
     };
     tempSelections = [...tempSelections, newSelection];
@@ -137,13 +135,14 @@ const MealEditScreen = ({ match, history }) => {
   };
 
   const deleteSelectionHandler = (selectionId, optionId) => {
-    let tempOptions = options;
+    let tempOptions = [...options];
     let optionIndex = tempOptions.findIndex((i) => i._id === optionId);
     let tempSelections = tempOptions[optionIndex].selections;
-
     let selectionIndex = tempSelections.findIndex((i) => i._id === selectionId);
-    tempSelections = tempSelections.splice(selectionIndex, 1);
+
+    tempSelections.splice(selectionIndex, 1);
     tempOptions.selections = tempSelections;
+
     setOptions(tempOptions);
   };
 
@@ -157,10 +156,9 @@ const MealEditScreen = ({ match, history }) => {
         <Row className="justify-content-md-center">
           <Col xs={12} md={6}>
             <h1>Edit Meal</h1>
-            {loadingUpdate && <Loader />}
             {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
 
-            {loading ? (
+            {loading || loadingUpdate ? (
               <Loader />
             ) : error ? (
               <Message variant="danger">{error}</Message>
@@ -215,11 +213,14 @@ const MealEditScreen = ({ match, history }) => {
                     return (
                       <>
                         <Row>
-                          <Col md={5}>
+                          <Col md={4}>
                             <strong>{option.name}</strong>
                           </Col>
                           <Col md={4}>
-                            <strong>{option.maxChoices}</strong>
+                            <strong>Max Choices: {option.maxChoices}</strong>
+                          </Col>
+                          <Col md={3}>
+                            <strong>Req: {option.required.toString()}</strong>
                           </Col>
                           <Col md={1}>
                             <Button
@@ -298,7 +299,7 @@ const MealEditScreen = ({ match, history }) => {
                   })}
 
                   <Row>
-                    <Col md={5}>
+                    <Col md={4}>
                       <Form.Group controlId="addOption">
                         <Form.Label>Name</Form.Label>
                         <Form.Control
@@ -317,6 +318,16 @@ const MealEditScreen = ({ match, history }) => {
                           placeholder="Enter max choices"
                           value={optionMaxChoices}
                           onChange={(e) => setOptionMaxChoices(e.target.value)}
+                        ></Form.Control>
+                      </Form.Group>
+                    </Col>
+                    <Col md={3}>
+                      <Form.Group controlId="addOption">
+                        <Form.Label>Required</Form.Label>
+                        <Form.Control
+                          type="checkbox"
+                          value={optionRequired}
+                          onChange={(e) => setOptionRequired(e.target.value)}
                         ></Form.Control>
                       </Form.Group>
                     </Col>
