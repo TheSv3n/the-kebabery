@@ -9,7 +9,6 @@ import {
 } from "../actions/basketActions";
 import PriceSummary from "../components/PriceSummary";
 import CheckoutSteps from "../components/CheckoutSteps";
-import axios from "axios";
 import Map from "../components/Map";
 
 const DeliveryScreen = ({ history }) => {
@@ -27,7 +26,6 @@ const DeliveryScreen = ({ history }) => {
   const [postCode, setPostCode] = useState(deliveryAddress.postCode);
   const [currentTime, setTime] = useState(new Date());
   const [interval, setNewInterval] = useState(1);
-  const [mapsApiKey, setMapsApiKey] = useState("");
 
   const dispatch = useDispatch();
 
@@ -45,12 +43,6 @@ const DeliveryScreen = ({ history }) => {
   };
 
   useEffect(() => {
-    const setKey = async () => {
-      const { data: apiKey } = await axios.get("/api/config/googlemaps");
-      setMapsApiKey(apiKey);
-    };
-    setKey();
-
     const timer = setInterval(() => {
       let completionTime = new Date();
       completionTime.setHours(
@@ -65,7 +57,7 @@ const DeliveryScreen = ({ history }) => {
     return () => {
       clearInterval(timer);
     };
-  }, [cookTime, deliveryTime, interval, mapsApiKey]);
+  }, [cookTime, deliveryTime, interval, dispatch]);
 
   return (
     <Container className="my-1">
@@ -114,7 +106,7 @@ const DeliveryScreen = ({ history }) => {
                 Order will be delivered from The Kebabery at{" "}
                 {currentTime.toLocaleTimeString().substring(0, 5)}
               </div>
-              <Map zoomLevel={17} apiKey={mapsApiKey} />
+              <Map zoomLevel={17} />
               <Form>
                 <Form.Group controlId="address">
                   <Form.Label>Address</Form.Label>

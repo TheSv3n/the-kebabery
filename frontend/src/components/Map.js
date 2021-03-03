@@ -2,18 +2,20 @@ import React from "react";
 import GoogleMapReact from "google-map-react";
 import "../css/map.css";
 
-const Map = ({ zoomLevel, apiKey }) => {
+const Map = ({ zoomLevel }) => {
   const location = {
-    address: "1600 Amphitheatre Parkway, Mountain View, california.",
-    lat: 37.42216,
-    lng: -122.08427,
+    address: "Moss Lane, Orrell Park, Liverpool",
+    lat: 53.46291585090182,
+    lng: -2.9696283837314783,
   };
 
   return (
     <div className="map">
       <div className="google-map">
         <GoogleMapReact
-          bootstrapURLKeys={{ key: { apiKey } }}
+          bootstrapURLKeys={{
+            key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+          }}
           defaultCenter={location}
           defaultZoom={zoomLevel}
         ></GoogleMapReact>
