@@ -1,3 +1,9 @@
+:root {
+  --overlay-color: #03a9f4;
+  --icon-red: #ee0000;
+  --icon-blue: #0199ff;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
