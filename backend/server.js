@@ -2,17 +2,19 @@ import path from "path";
 import express from "express";
 import colors from "colors";
 import dotenv from "dotenv";
-import connectDB from "./config/db.js";
-import morgan from "morgan";
-import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import fs from "fs";
 import http from "http";
 import https from "https";
+import connectDB from "./config/db.js";
+import morgan from "morgan";
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
 import mealRoutes from "./routes/mealRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
+
+dotenv.config();
 
 let credentials = {};
 
@@ -43,8 +45,6 @@ if (process.env.NODE_ENV === "production") {
     ca: "",
   };
 }
-
-dotenv.config();
 
 connectDB();
 
