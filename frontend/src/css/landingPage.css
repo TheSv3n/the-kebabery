@@ -187,3 +187,8 @@
     font-size: 2em;
   }
 }
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+}

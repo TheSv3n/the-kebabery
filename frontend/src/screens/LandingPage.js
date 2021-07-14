@@ -61,32 +61,32 @@ const LandingPage = () => {
               Menu
             </div>
           </LinkContainer>
-          <LinkContainer to="/contacts">
+          <LinkContainer to="/contacts" className="d-none d-md-block">
             <div className="menu-item" onClick={() => toggleHandler("menu")}>
               Contact Us
             </div>
           </LinkContainer>
-          <LinkContainer to="/basket">
+          <LinkContainer to="/basket" className="d-none d-md-block">
             <div className="menu-item" onClick={() => toggleHandler("menu")}>
               Your Order{" "}
               {basketItems.length > 0 ? `(${basketItems.length})` : ""}
             </div>
           </LinkContainer>
           {userInfo ? (
-            <LinkContainer to="/profile">
+            <LinkContainer to="/profile" className="d-none d-md-block">
               <div className="menu-item" onClick={() => toggleHandler("menu")}>
                 Profile
               </div>
             </LinkContainer>
           ) : (
-            <LinkContainer to="/login">
+            <LinkContainer to="/login" className="d-none d-md-block">
               <div className="menu-item" onClick={() => toggleHandler("menu")}>
                 Login
               </div>
             </LinkContainer>
           )}
           {userInfo && userInfo.isAdmin ? (
-            <LinkContainer to="/admin/orders">
+            <LinkContainer to="/admin/orders" className="d-none d-md-block">
               <div className="menu-item" onClick={() => toggleHandler("menu")}>
                 Admin Options
               </div>
