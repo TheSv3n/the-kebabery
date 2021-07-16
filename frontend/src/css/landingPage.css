@@ -74,6 +74,7 @@
   text-transform: uppercase;
   cursor: pointer;
   visibility: hidden;
+  z-index: 1;
 }
 
 .bottom-logo.active {
@@ -191,4 +192,5 @@
 .footer {
   display: flex;
   justify-content: space-between;
+  z-index: 1;
 }
