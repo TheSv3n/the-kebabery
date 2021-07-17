@@ -18,6 +18,7 @@ const BasketScreen = ({ history }) => {
       <CheckoutSteps step1 step2 />
       <Row>
         <Col md={8}>
+          <h4 className="">Items</h4>
           <ListGroup>
             {basketItems.map((meal) => (
               <BasketItem key={meal._id} meal={meal} />

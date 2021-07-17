@@ -33,8 +33,11 @@ const MenuScreen = ({ history }) => {
         "Error"
       ) : (
         <Row>
-          <Col md={basketItems.length === 0 ? 12 : 8}>
-            <ListGroup className="mt-3">
+          <Col
+            md={basketItems.length === 0 ? 12 : 8}
+            className="order-2 order-md-1"
+          >
+            <ListGroup>
               {mealCategories.map((category) => (
                 <>
                   <Row>
@@ -54,7 +57,7 @@ const MenuScreen = ({ history }) => {
           {basketItems.length === 0 ? (
             ""
           ) : (
-            <Col md={4}>
+            <Col md={4} className="order-1 order-md-2">
               <PriceSummary />
               <ListGroup.Item>{error && <div>{error}</div>}</ListGroup.Item>
               <ListGroup.Item>

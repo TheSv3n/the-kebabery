@@ -1,3 +1,9 @@
+body::before {
+  display: block;
+  content: "";
+  height: var(--navbarHeight);
+}
+
 .description {
   font-size: 0.8em;
   font-style: italic;

@@ -25,7 +25,7 @@ function App() {
     <>
       <Router>
         <LandingPage />
-        <Container>
+        <Container className="mt-3">
           <Route path="/admin/meal/:id/edit" component={MealEditScreen} />
           <Route path="/admin/meallist" component={MealListScreen} />
           <Route path="/admin/user/:id/edit" component={UserDetailsScreen} />

@@ -194,3 +194,8 @@
   justify-content: space-between;
   z-index: 1;
 }
+
+.mob {
+  z-index: 10;
+  font-size: 16px;
+}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../css/landingPage.css";
 import { useDispatch, useSelector } from "react-redux";
+import { Row, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { toggleMenuActive } from "../actions/landingActions";
 
@@ -23,12 +24,13 @@ const LandingPage = () => {
       dispatch(toggleMenuActive(true));
     } else if (type === "logo") {
       dispatch(toggleMenuActive(false));
+      setShowMobileMenu(false);
     }
   };
 
   return (
     <>
-      <section className={`showcase ${menuActive}`}>
+      <section className={`showcase ${menuActive} fixed-top`}>
         <header className={`${menuActive === "active" ? "d-none" : ""}`}>
           <h2 className={`logo ${menuActive}`}>The Kebabery</h2>
         </header>
@@ -40,22 +42,20 @@ const LandingPage = () => {
           autoplay=""
           className={`${menuActive}`}
         ></video>
-        <div className="container">
+        <Container>
           <div className="overlay"></div>
           <div className={`text ${menuActive}`}>
-            <h2>The finest kebabs</h2>
-            <h3>in all of Kebabdom</h3>
+            <h2>Fine Quality Food</h2>
+            <h3>Just for You</h3>
             <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quisquam
-              tempora laboriosam, voluptatibus maxime beatae corporis quae
-              molestiae recusandae ea quas!
+              We are a family run takeaway based in Liverpool, specialising in
+              fine quality delicious kebabs, pizzas and burgers.
             </p>
+            <p>Order online for delivery or collection or come and see us.</p>
           </div>
 
-          <div
-            className={`row footer ${
-              menuActive === "active" ? " " : "mt-auto"
-            }`}
+          <Row
+            className={`footer ${menuActive === "active" ? " " : "mt-auto"}`}
           >
             <h2
               className={`bottom-logo ${menuActive}`}
@@ -124,9 +124,49 @@ const LandingPage = () => {
             ) : (
               ""
             )}
-          </div>
-          {showMobileMenu ? <div className="row">Menu</div> : ""}
-        </div>
+          </Row>
+          {showMobileMenu ? (
+            <Row className="d-flex d-md-none">
+              <LinkContainer to="/" className="mx-auto">
+                <div className="mob menu-item">
+                  <i class="fas fa-utensils"></i>
+                </div>
+              </LinkContainer>
+              <LinkContainer to="/contacts" className="mx-auto">
+                <div className="mob menu-item">
+                  <i class="fas fa-phone"></i>
+                </div>
+              </LinkContainer>
+              <LinkContainer to="/basket" className="mx-auto">
+                <div className="mob menu-item">
+                  <i class="fas fa-shopping-basket"></i>
+                  {basketItems.length > 0 ? `(${basketItems.length})` : ""}
+                </div>
+              </LinkContainer>
+              {userInfo ? (
+                <LinkContainer to="/profile" className="mx-auto">
+                  <div
+                    className="mob menu-item"
+                    onClick={() => toggleHandler("menu")}
+                  >
+                    <i class="fas fa-user"></i>
+                  </div>
+                </LinkContainer>
+              ) : (
+                <LinkContainer to="/login" className="mx-auto">
+                  <div
+                    className="mob menu-item"
+                    onClick={() => toggleHandler("menu")}
+                  >
+                    <i class="fas fa-sign-in-alt"></i>
+                  </div>
+                </LinkContainer>
+              )}
+            </Row>
+          ) : (
+            ""
+          )}
+        </Container>
       </section>
     </>
   );
