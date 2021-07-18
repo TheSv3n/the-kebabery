@@ -33,7 +33,9 @@ export const basketReducer = (
     case BASKET_REMOVE_ITEM:
       return {
         ...state,
-        basketItems: state.basketItems.filter((x) => x.meal !== action.payload),
+        basketItems: state.basketItems.filter(
+          (x) => x.tempId !== action.payload
+        ),
       };
     case BASKET_ITEMS_RESET:
       return {

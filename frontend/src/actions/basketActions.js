@@ -14,6 +14,8 @@ import {
   BASKET_UPDATE_DELIVERY_TIME,
 } from "../constants/basketConstants";
 
+import { v1 as uuidv1 } from "uuid";
+
 const calculateCookTime = () => async (dispatch, getState) => {
   let tempItems = getState().basket.basketItems;
   let tempCookTime = 0;
@@ -27,32 +29,31 @@ const calculateCookTime = () => async (dispatch, getState) => {
   localStorage.setItem("cookTime", JSON.stringify(getState().basket.cookTime));
 };
 
-export const addToBasket = (meal, options, optionsTotal) => async (
-  dispatch,
-  getState
-) => {
-  dispatch({
-    type: BASKET_ADD_ITEM,
-    payload: {
-      meal: meal._id,
-      name: meal.name,
-      image: meal.image,
-      price: meal.price,
-      countInStock: meal.countInStock,
-      options: options,
-      cookTime: meal.cookTime,
-      optionsPrice: optionsTotal,
-      totalPrice: optionsTotal + meal.price,
-    },
-  });
+export const addToBasket =
+  (meal, options, optionsTotal) => async (dispatch, getState) => {
+    dispatch({
+      type: BASKET_ADD_ITEM,
+      payload: {
+        meal: meal._id,
+        name: meal.name,
+        image: meal.image,
+        price: meal.price,
+        countInStock: meal.countInStock,
+        options: options,
+        cookTime: meal.cookTime,
+        optionsPrice: optionsTotal,
+        totalPrice: optionsTotal + meal.price,
+        tempId: uuidv1(),
+      },
+    });
 
-  localStorage.setItem(
-    "basketItems",
-    JSON.stringify(getState().basket.basketItems)
-  );
+    localStorage.setItem(
+      "basketItems",
+      JSON.stringify(getState().basket.basketItems)
+    );
 
-  dispatch(calculateCookTime());
-};
+    dispatch(calculateCookTime());
+  };
 
 export const removeFromBasket = (id) => (dispatch, getState) => {
   dispatch({

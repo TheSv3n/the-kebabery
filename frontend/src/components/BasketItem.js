@@ -7,7 +7,7 @@ const BasketItem = ({ meal }) => {
   const dispatch = useDispatch();
 
   const removeFromBasketHandler = (meal) => {
-    dispatch(removeFromBasket(meal.meal));
+    dispatch(removeFromBasket(meal.tempId));
   };
   return (
     <li className={"list-group-item d-flex text-center my-1 my-md-2 my-lg-2"}>

@@ -93,7 +93,7 @@ const OrderScreen = ({ match, history }) => {
     <>
       <Row>
         <Col md={8}>
-          <h2>Order {order._id}</h2>
+          <h3>Order {order._id}</h3>
           <ListGroup variant="flush">
             <ListGroup.Item>
               <h2>{order.deliveryMethod}</h2>
