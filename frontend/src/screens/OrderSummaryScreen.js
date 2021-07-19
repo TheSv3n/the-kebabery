@@ -60,10 +60,18 @@ const OrderSummaryScreen = ({ history }) => {
   };
 
   const submitHandler = () => {
+    let address = {};
+    if (deliveryMethod === "Collection") {
+      address.address = "COLLECTION";
+      address.city = "COLLECTION";
+      address.postCode = "COLLECTION";
+    } else {
+      address = deliveryAddress;
+    }
     dispatch(
       createOrder({
         orderItems: basket.basketItems,
-        deliveryAddress: basket.deliveryAddress,
+        deliveryAddress: address,
         deliveryMethod: deliveryMethod,
         paymentMethod: paymentMethod,
         itemsPrice: basketTotal,

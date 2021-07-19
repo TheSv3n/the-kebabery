@@ -26,13 +26,29 @@ const DeliveryScreen = ({ history }) => {
   const [postCode, setPostCode] = useState(deliveryAddress.postCode);
   const [currentTime, setTime] = useState(new Date());
   const [interval, setNewInterval] = useState(1);
+  const [error, setError] = useState("");
 
   const dispatch = useDispatch();
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(saveDeliveryAddress({ address, city, postCode }));
-    history.push("/ordersummary");
+    if (
+      (address === undefined ||
+        address === "" ||
+        city === undefined ||
+        city === "" ||
+        postCode === undefined ||
+        postCode === "") &&
+      deliveryMethod === "Delivery"
+    ) {
+      setError(
+        "Please complete all address details for delivery or choose collection"
+      );
+    } else {
+      setError("");
+      dispatch(saveDeliveryAddress({ address, city, postCode }));
+      history.push("/ordersummary");
+    }
   };
 
   const setDeliveryMethod = (method, price, time) => {
@@ -146,6 +162,7 @@ const DeliveryScreen = ({ history }) => {
         </Col>
         <Col md={4}>
           <PriceSummary />
+          <ListGroup.Item>{<div>{error}</div>}</ListGroup.Item>
           <ListGroup.Item>
             <Button
               onClick={submitHandler}
